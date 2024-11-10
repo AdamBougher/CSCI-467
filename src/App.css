@@ -28,6 +28,37 @@
   color: #61dafb;
 }
 
+body {
+  background-color: #87ceeb;
+  color: black;
+  padding: 4px;
+  font-family: Arial;
+  text-align: center;
+}
+ 
+img{  
+  height: 150px;
+  width: 200px;   
+  border-radius: 30%;
+}  
+#left {    
+  float: left;
+  padding: 30px;
+  border-radius: 50%;
+}  
+#right {    
+  float: right;  
+  padding: 30px;
+}
+#righttext  {
+  float: left;    
+  margin: 0 15px 0 0;
+}  
+.clear {
+  clear: both;
+  margin-bottom: 100px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
