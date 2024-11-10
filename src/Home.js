@@ -29,6 +29,8 @@ export default function Home() {
       <Item image="shitbox.jpg" name="Shit box" cost="5.99" quantity="20" descr="Shit car lol" />
       <Item image="porsche.jpg" name="Porsche" cost="100000" quantity="2" descr="Nice car" />
       <Item image="lambo.jpg" name="Lambo" cost="200000" quantity="69" descr="Lambo up!" />
+      <a href="http://localhost:3000/#/Admin">Admin</a>
+      <a href="http://localhost:3000/#/Checkout">Checkout</a>
     </div>
   );
 }
