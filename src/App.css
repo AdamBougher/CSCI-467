@@ -63,7 +63,7 @@ img{
   display: flex;
   align-items: center;
   margin: 25px;
-  outline: 2px solid #f0f0f0;
+  /* outline: 2px solid #f0f0f0; */
 }
 
 nav{
