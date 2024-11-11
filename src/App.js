@@ -1,4 +1,3 @@
-import 'devextreme/dist/css/dx.light.css';
 import './App.css';
 import React from 'react';
 import Home from './pages/Home';

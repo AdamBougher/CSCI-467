@@ -1,5 +1,4 @@
 import React from 'react';
-import 'devextreme/dist/css/dx.light.css';
 import '../App.css';
 import SiteNav from '../components/siteNav';
 
