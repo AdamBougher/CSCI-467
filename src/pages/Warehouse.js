@@ -1,55 +1,64 @@
 import React from 'react';
 import SiteNav from "../components/siteNav";
 import '../App.css';
-import { Button } from '@mui/material';
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Button,
+} from "@mui/material";
 
 export default function Warehouse() {
   return (
     <body>
       <h1>Warehouse</h1>
       <SiteNav />
-      <div className="warehouse">
-        <table>
-          <thead>
-            <tr>
-              <th>Order#</th>
-              <th>Printable</th>
-              <th>Order Completed</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td class="printable">
-                <Button
-                  size="small"
-                  variant="contained"
-                  onClick={() => window.print()}
-                >
-                  Packing list
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  onClick={() => window.print()}
-                >
-                  Invoice
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  onClick={() => window.print()}
-                >
-                  Shipping label{" "}
-                </Button>
-              </td>
-              <td>
-                <Button variant="contained">Order Shipped</Button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <h2>Orders to Process</h2>
+      <Table class="warehouse">
+        <TableHead>
+          <TableRow>
+            <TableCell>Order#</TableCell>
+            <TableCell>Printable</TableCell>
+            <TableCell>Order Completed</TableCell>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          <TableRow>
+            <TableCell>1</TableCell>
+
+            <TableCell className="printable">
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => window.print()}
+              >
+                Packing list
+              </Button>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => window.print()}
+              >
+                Invoice
+              </Button>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => window.print()}
+              >
+                Shipping label
+              </Button>
+            </TableCell>
+
+            <TableCell>
+              <Button variant="contained">Order Shipped</Button>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
     </body>
   );
 }
