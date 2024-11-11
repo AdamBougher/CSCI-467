@@ -1,6 +1,5 @@
 import React from 'react';
 import 'devextreme/dist/css/dx.light.css';
-import { TextBox } from 'devextreme-react/text-box';
 import './App.css';
 
 export default function Checkout() {
