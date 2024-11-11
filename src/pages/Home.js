@@ -1,11 +1,13 @@
 import "../App.css";
 import React from 'react';
 import { ItemCard } from "../components/itemCard"; // Use named import
+import SiteNav from "../components/siteNav"; // Use default import
 
 export default function Home() {
   return (
     <div>
       <h1>Welcome to Ryan Autoparts!</h1>
+      <SiteNav />
       <ItemCard
         image="shitbox.jpg"
         name="Shit box"
@@ -27,11 +29,6 @@ export default function Home() {
         quantity="69"
         descr="Lambo up!"
       />
-
-      <a href="http://localhost:3000/#/Admin">Admin</a>
-      <a href="http://localhost:3000/#/Checkout">Checkout</a>
-      <a href="http://localhost:3000/#/Warehouse">Warehouse</a>
-      <a href="http://localhost:3000/#/Desk">Desk</a>
     </div>
   );
 }
