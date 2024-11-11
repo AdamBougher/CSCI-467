@@ -1,6 +1,7 @@
 import React from 'react';
 import SiteNav from "../components/siteNav";
 import '../App.css';
+import { Button } from '@mui/material';
 
 export default function Warehouse() {
   return (
@@ -20,12 +21,30 @@ export default function Warehouse() {
             <tr>
               <td>1</td>
               <td class="printable">
-                <button>Packing list</button>
-                <button>Invoice</button>
-                <button>Shipping label </button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => window.print()}
+                >
+                  Packing list
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => window.print()}
+                >
+                  Invoice
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => window.print()}
+                >
+                  Shipping label{" "}
+                </Button>
               </td>
               <td>
-                <button>Order Shipped</button>
+                <Button variant="contained">Order Shipped</Button>
               </td>
             </tr>
           </tbody>
