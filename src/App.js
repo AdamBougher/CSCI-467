@@ -1,7 +1,7 @@
 import 'devextreme/dist/css/dx.light.css';
 import './App.css';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+//import ReactDOM from 'react-dom/client';
 import Home from './Home';
 import Admin from './Admin';
 import Checkout from './Checkout'
