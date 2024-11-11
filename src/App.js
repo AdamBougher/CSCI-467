@@ -1,12 +1,11 @@
 import 'devextreme/dist/css/dx.light.css';
 import './App.css';
 import React from 'react';
-//import ReactDOM from 'react-dom/client';
-import Home from './Home';
-import Admin from './Admin';
-import Checkout from './Checkout'
-import Warehouse from './Warehouse'
-import Desk from './Desk'
+import Home from './pages/Home';
+import Admin from "./pages/Admin";
+import Checkout from "./pages/Checkout";
+import Warehouse from "./pages/Warehouse";
+import Desk from "./pages/Desk";
 import { HashRouter as Router, Routes, Route} from 'react-router-dom'
 
 function App() {

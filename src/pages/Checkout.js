@@ -1,11 +1,13 @@
 import React from 'react';
 import 'devextreme/dist/css/dx.light.css';
-import './App.css';
+import '../App.css';
+import SiteNav from '../components/siteNav';
 
 export default function Checkout() {
     return (
         <div>
             <h1>Checkout</h1>
+            <SiteNav/>
             <h3>Info:</h3>
             <form>
                 <label>
