@@ -52,11 +52,18 @@ img{
 }
 #righttext  {
   float: left;    
-  margin: 0 15px 0 0;
+  margin: 0 1.px 0 0;
 }  
 .clear {
   clear: both;
   margin-bottom: 100px;
+}
+
+.item-card {
+  display: flex;
+  align-items: center;
+  margin: 25px;
+  outline: 2px solid #f0f0f0;
 }
 
 @keyframes App-logo-spin {
