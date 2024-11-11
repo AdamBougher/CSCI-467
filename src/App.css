@@ -86,14 +86,8 @@ nav ul li a {
 }
 
 .warehouse{
-  margin-top: 5em;
-  display: flex;
-  justify-content: center;
-}
-
-.printable{
-  display: flex;
-  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
 }
 
 @keyframes App-logo-spin {
