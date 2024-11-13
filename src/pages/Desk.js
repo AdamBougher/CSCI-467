@@ -16,13 +16,13 @@ export default function Desk() {
         <h1>Receiving Desk</h1>
         <SiteNav />
 
-        <Table class="warehouse">
+        <Table class="desk">
         <TableHead>
           <TableRow>
-            <TableCell>Order#</TableCell>
+            <TableCell>Order #</TableCell>
             <TableCell>Part Number</TableCell>
             <TableCell>Desc</TableCell>
-            <TableCell>Quantity: </TableCell>
+            <TableCell>Quantity</TableCell>
           </TableRow>
         </TableHead>
         </Table>
