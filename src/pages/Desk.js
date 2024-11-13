@@ -13,7 +13,7 @@ import {
 export default function Desk() {
     return (
       <body>
-        <h1>Hi, this is the recieving desk page</h1>
+        <h1>Receiving Desk</h1>
         <SiteNav />
 
         <Table class="warehouse">
