@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const mariadb = require("mariadb");
+const mysql = require("mysql");
 
 async function connect() {
   try {
-    const conn = await mariadb.createConnection({
+    const conn = await mysql.createConnection({
       host: "blitz.cs.niu.edu",
       user: "student",
       password: "student",
