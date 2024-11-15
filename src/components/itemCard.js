@@ -1,5 +1,6 @@
 import React from 'react';
 import "../App.css";
+import Divider from '@mui/material/Divider';
 
 export function ItemCard(props) {
   return (
@@ -15,7 +16,8 @@ export function ItemCard(props) {
         <h4>{props.descr}</h4>
         <button type="button">Add To Cart</button>
       </div>
-      <div className="clear"></div>
+      <div id ="left"/>  
+      <Divider orientation="vertical" variant="middle" flexItem />
     </div>
   );
 }

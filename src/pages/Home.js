@@ -29,6 +29,7 @@ export default function Home() {
         quantity="69"
         descr="Lambo up!"
       />
+
     </div>
   );
 }
