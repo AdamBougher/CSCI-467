@@ -22,7 +22,7 @@ class Parts extends Component {
             <ul>
                 {this.state.parts.map((part) => (
                     <li key={part.partID}>
-                        {part.partID} - {part.partName} - {part.partCost}
+                        {part.number} - {part.description} - {part.price} - {part.weight} - {part.pictureURL}
                     </li>
                 ))}
             </ul>

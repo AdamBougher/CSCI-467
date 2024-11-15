@@ -32,7 +32,7 @@ async function getAllParts() {
   }
 }
 
-router.get("/", async (req, res) => {
+router.get("/api/parts", async (req, res) => {
   try {
     const parts = await getAllParts();
     res.json(parts);
