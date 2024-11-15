@@ -11,4 +11,4 @@ CREATE TABLE 'quantity'
 );
 
 --show table
-SELECT * FROM 'quantity';
+--SELECT * FROM 'quantity';
