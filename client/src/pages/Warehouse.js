@@ -9,6 +9,7 @@ import {
   TableCell,
   Button,
 } from "@mui/material";
+import Parts from "../components/parts";
 
 export default function Warehouse() {
   return (
@@ -16,7 +17,8 @@ export default function Warehouse() {
       <h1>Warehouse</h1>
       <SiteNav />
       <h2>Orders to Process</h2>
-      <Table class="warehouse">
+      <Parts />
+      {/* <Table class="warehouse">
         <TableHead>
           <TableRow>
             <TableCell>Order#</TableCell>
@@ -58,7 +60,7 @@ export default function Warehouse() {
             </TableCell>
           </TableRow>
         </TableBody>
-      </Table>
+      </Table> */}
     </body>
   );
 }

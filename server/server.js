@@ -1,11 +1,12 @@
-//index.js
 const express = require('express');
-const parts = require('./parts');
-
 const app = express();
-const port = process.env.PORT || 3001;
+const parts = require("./routes/parts");
 
-app.get("/", (req, res) => {
+const port = process.env.PORT || 8080;
+
+app.get("/api/parts", parts);
+
+app.get("/api/parts", (req, res) => {
     parts.getAll((list) => {
       res.send(list);
     });
