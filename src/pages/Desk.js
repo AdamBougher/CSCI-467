@@ -15,7 +15,6 @@ export default function Desk() {
       <body>
         <h1>Receiving Desk</h1>
         <SiteNav />
-
         <Table class="desk">
         <TableHead>
           <TableRow>
@@ -26,7 +25,6 @@ export default function Desk() {
           </TableRow>
         </TableHead>
         </Table>
-
       </body>
     );
 }
