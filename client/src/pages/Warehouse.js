@@ -9,7 +9,6 @@ export default function Warehouse() {
       <h1>Warehouse</h1>
       <SiteNav />
       <h2>Orders to Process</h2>
-      <Parts />
     </body>
   );
 }
