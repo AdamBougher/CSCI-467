@@ -22,7 +22,7 @@ async function getAllParts() {
   let connection;
   try {
     connection = await connect();
-    const parts = await connection.query("SELECT * FROM parts");
+    const parts = await connection.query('SELECT * FROM parts');
     return parts;
   } catch (err) {
     console.error("Error fetching parts: ", err);
