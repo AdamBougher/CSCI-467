@@ -11,6 +11,6 @@
   "dependencies": {
     "cores": "^0.8.5",
     "express": "^4.21.1",
-    "mysql": "^2.18.1"
+    "mariadb": "^3.4.0"
   }
 }
