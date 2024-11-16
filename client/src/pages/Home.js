@@ -2,13 +2,14 @@ import "../App.css";
 import React from 'react';
 import { ItemCard } from "../components/itemCard"; // Use named import
 import SiteNav from "../components/siteNav"; // Use default import
+import Parts from "../components/parts";
 
 export default function Home() {
   return (
     <div>
       <h1>Welcome to Ryan Autoparts!</h1>
       <SiteNav />
-      <ItemCard
+      {/* <ItemCard
         image="shitbox.jpg"
         name="Shit box"
         cost="5.99"
@@ -28,7 +29,8 @@ export default function Home() {
         cost="200000"
         quantity="69"
         descr="Lambo up!"
-      />
+      /> */}
+      <Parts />
     </div>
   );
 }
