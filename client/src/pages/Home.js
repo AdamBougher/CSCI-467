@@ -2,6 +2,7 @@ import "../App.css";
 import React from 'react';
 import { ItemCard } from "../components/itemCard"; // Use named import
 import SiteNav from "../components/siteNav"; // Use default import
+import Parts from "../components/parts";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
     <h1>Ryan's Private Parts</h1>
     </div>
       <SiteNav />
-      <ItemCard
+      {/* <ItemCard
         image="shitbox.jpg"
         name="Shit box"
         descr="Shit car lol"
@@ -31,7 +32,8 @@ export default function Home() {
         cost="200000"
         quantity="69"
         descr="Lambo up!"
-      />
+      /> */}
+      <Parts />
     </div>
   );
 }

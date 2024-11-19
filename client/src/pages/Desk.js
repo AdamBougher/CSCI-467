@@ -13,7 +13,9 @@ import {
 export default function Desk() {
     return (
       <body>
-        <h1>Receiving Desk</h1>
+      <div className="header">
+      <h1>Receiving Desk</h1>
+      </div>
         <SiteNav />
         <Table class="desk">
         <TableHead>
