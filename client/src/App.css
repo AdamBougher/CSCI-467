@@ -29,10 +29,10 @@
 }
 
 body {
-  background-color: #87ceeb;
+  background-color: #ffffff;
   color: black;
   padding: 4px;
-  font-family: Arial;
+  font-family: "Georgia", serif; /* Use a serif font */
   text-align: center;
 }
  
@@ -102,4 +102,11 @@ nav ul li a {
   to {
     transform: rotate(360deg);
   }
+}
+.header {
+  background-color: #f8f9fa; /* Light gray */
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+  font-family: "Georgia", serif; /* Use a serif font */
 }

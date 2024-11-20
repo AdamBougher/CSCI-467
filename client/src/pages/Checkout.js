@@ -5,7 +5,9 @@ import SiteNav from '../components/siteNav';
 export default function Checkout() {
     return (
         <div>
+            <div className="header">
             <h1>Checkout</h1>
+            </div>
             <SiteNav/>
             <h3>Info:</h3>
             <form>

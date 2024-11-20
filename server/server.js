@@ -1,25 +1,15 @@
 const express = require('express');
-const mysql = require('mysql');
-const cors = require('cors');
-
 const app = express();
-app.use(cors());
-
-const connection = mysql.createConnection({
-  host: "blitz.cs.niu.edu",
-  user: "student",
-  password: "student",
-  database: "csci467",
-});
-
+const parts = require("./routes/parts");
 
 const port = process.env.PORT || 8080;
 
+app.get("/api/parts", parts);
+
 app.get("/api/parts", (req, res) => {
-  connection.query("SELECT * FROM parts", (err, results) => {
-    if (err) return res.json(err);
-      return res.json(results);
-  });
+    parts.getAll((list) => {
+      res.send(list);
+    });
 });
 
 app.listen(port, () => {

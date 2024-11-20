@@ -7,21 +7,24 @@ import Parts from "../components/parts";
 export default function Home() {
   return (
     <div>
-      <h1>Welcome to Ryan Autoparts!</h1>
+      
+    <div className="header">
+    <h1>Ryan's Private Parts</h1>
+    </div>
       <SiteNav />
       {/* <ItemCard
         image="shitbox.jpg"
         name="Shit box"
+        descr="Shit car lol"
         cost="5.99"
         quantity="20"
-        descr="Shit car lol"
       />
       <ItemCard
         image="porsche.jpg"
         name="Porsche"
+        descr="Nice car"
         cost="100000"
         quantity="2"
-        descr="Nice car"
       />
       <ItemCard
         image="lambo.jpg"

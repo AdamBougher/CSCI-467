@@ -6,7 +6,9 @@ import Parts from "../components/parts";
 export default function Warehouse() {
   return (
     <body>
-      <h1>Warehouse</h1>
+    <div className="header">
+    <h1>Warehouse</h1>
+    </div>
       <SiteNav />
       <h2>Orders to Process</h2>
     </body>
