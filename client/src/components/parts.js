@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { ItemCard } from "./itemCard"; // Use named import
 
 class Parts extends Component {
     constructor(props) {
@@ -20,11 +21,20 @@ class Parts extends Component {
         return (
         <div>
             <ul>
-                {this.state.parts.map((part) => (
-                    <li key={part.partID}>
-                        {part.number} - {part.description} - {part.price} - {part.weight} - {part.pictureURL}
-                    </li>
-                ))}
+                {
+                this.state.parts.map((part) => (
+                    <ItemCard
+                        image={part.pictureURL}
+                        name={part.number}
+                        descr={part.description}
+                        cost={part.price}
+                        quantity={part.weight}
+                    />
+                ))
+            }
+
+
+
             </ul>
         </div>
     );
