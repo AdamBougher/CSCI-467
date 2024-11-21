@@ -2,43 +2,31 @@ const express = require('express');
 const router = express.Router();
 const mysql = require("mysql");
 
-async function connect() {
-  try {
-    const conn = await mysql.createConnection({
-      host: "blitz.cs.niu.edu",
-      user: "student",
-      password: "student",
-      database: "csci467",
-    });
-    console.log("Connected to the database");
-    return conn;
-  } catch (err) {
-    console.log("ERROR... CAN'T CONNECT: " + err);
-    throw err;
-  }
-}
+const connection = mysql.createConnection({
+  host: "blitz.cs.niu.edu",
+  user: "student",
+  password: "student",
+  database: "csci467",
+});
 
-async function getAllParts() {
-  let connection;
-  try {
-    connection = await connect();
-    const parts = await connection.query("SELECT * FROM parts");
-    return parts;
-  } catch (err) {
-    console.error("Error fetching parts: ", err);
-    throw err;
-  } finally {
-    if (connection) connection.end();
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+    return;
   }
-}
+  console.log('Connected to the database');
+});
 
-router.get("/api/parts", async (req, res) => {
-  try {
-    const parts = await getAllParts();
-    res.json(parts);
-  } catch (err) {
-    res.status(500).send("Error fetching parts");
-  }
+router.get("/api/parts", (req, res) => {
+  connection.query("SELECT * FROM parts", (err, rows) => {
+    if (err) {
+      console.error('Error fetching parts:', err);
+      res.status(500).json({ error: 'Error fetching parts' });
+      return;
+    }
+    console.log("rows: ", rows);
+    res.json(rows);
+  });
 });
 
 module.exports = router;
