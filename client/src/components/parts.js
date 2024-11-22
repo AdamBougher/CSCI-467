@@ -28,7 +28,7 @@ class Parts extends Component {
                         name={part.number}
                         descr={part.description}
                         cost={part.price}
-                        quantity={part.weight}
+                        weight={part.weight}
                     />
                 ))
             }
