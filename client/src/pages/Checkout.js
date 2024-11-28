@@ -1,13 +1,13 @@
 import React from 'react';
 import '../App.css';
 import SiteNav from '../components/siteNav';
+import Header from "../components/Header";
+
 
 export default function Checkout() {
     return (
         <div className="checkout-container">
-            <div className="header">
-                <h1>Checkout</h1>
-            </div>
+            <Header />
             <SiteNav />
             <div className="checkout-form">
                 <h3>Billing Information</h3>

@@ -1,4 +1,5 @@
 import SiteNav from "../components/siteNav";
+import Header from "../components/Header";
 import React from "react";
 import '../App.css';
 import {
@@ -13,9 +14,7 @@ import {
 export default function Desk() {
     return (
       <body>
-      <div className="header">
-      <h1>Receiving Desk</h1>
-      </div>
+        <Header />
         <SiteNav />
         <Table class="desk">
         <TableHead>
