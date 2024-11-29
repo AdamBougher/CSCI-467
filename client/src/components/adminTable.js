@@ -20,7 +20,7 @@ const rows = [
   createData(10, 'Ege'),
 ];
 
-export function AdminTable(props) {
+export default function AdminTable(props) {
   return (
     <div>
         <TableContainer component={Paper}>
