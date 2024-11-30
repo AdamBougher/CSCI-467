@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import "../App.css";
 
 const SiteNav = () => {
   return (
-    <nav>
+    <nav className='site-nav'>
       <ul>
         <li>
           <Link to="/">Home</Link>

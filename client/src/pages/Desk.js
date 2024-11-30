@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SiteNav from "../components/siteNav";
-import "../App.css";
+import Header from "../components/Header";
+import '../App.css';
 import {
   Table,
   TableHead,
