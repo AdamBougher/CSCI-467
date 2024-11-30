@@ -1,8 +1,9 @@
 # STARING THE SERVER
-you need 2 terminals one in the server folder and one in the client folder
+Start this version with thew same command in both client and server!
 
-## Server
-node server.js
+## INSTALL DEPENDACIES
+npm install
 
-## Client
-npm start
+## Start Project parts
+npm run dev
+

@@ -7,13 +7,7 @@ const SiteNav = () => {
     <nav className='site-nav'>
       <ul>
         <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
           <Link to="/Admin">Admin</Link>
-        </li>
-        <li>
-          <Link to="/Checkout">Checkout</Link>
         </li>
         <li>
           <Link to="/Warehouse">Warehouse</Link>

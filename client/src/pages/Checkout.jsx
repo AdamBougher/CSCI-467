@@ -7,8 +7,6 @@ import Header from "../components/Header";
 export default function Checkout() {
     return (
         <div className="checkout-container">
-            <Header />
-            <SiteNav />
             <div className="checkout-form">
                 <h3>Billing Information</h3>
                 <form>
