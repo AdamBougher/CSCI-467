@@ -15,20 +15,18 @@ const Parts = () => {
     }, []);
 
     return (
-        <div>
-            <ul>
-                {
-                parts.map((part) => (
-                    <ItemCard
-                        image={part.pictureURL}
-                        name={part.number}
-                        descr={part.description}
-                        cost={part.price}
-                        weight={part.weight}
-                    />
-                ))
-                }
-            </ul>
+        <div className="parts">
+            {
+            parts.map((part) => (
+                <ItemCard
+                    image={part.pictureURL}
+                    name={part.number}
+                    descr={part.description}
+                    cost={part.price}
+                    weight={part.weight}
+                />
+            ))
+            }
         </div>
     );
 }
