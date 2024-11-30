@@ -53,7 +53,8 @@ img{
 .item-card {
   display: flex;
   align-items: center;
-  margin: 25px;
+  margin: 0 auto;
+
   /* outline: 2px solid #f0f0f0; */
 }
 
@@ -77,7 +78,7 @@ nav ul li a {
 }
 
 .warehouse{
-  width: 50%;
+  width: 75%;
   margin: 0 auto;
 }
 
@@ -218,3 +219,17 @@ nav ul li a {
   max-height: 50px;
 }
 /* FORM CSS */
+
+/* HOME CSS */
+.parts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 20px;
+  margin: 5;
+}
+.parts-container{
+  gap: 20px;
+  padding: 20px;
+  height: 80vh;
+  overflow-y: auto; /* Enable vertical scrolling */
+}

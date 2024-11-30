@@ -47,10 +47,7 @@ export default function Desk() {
 
   return (
     <body>
-      <div className="header">
         <h1>Receiving Desk</h1>
-      </div>
-      <SiteNav />
       <div className="form-container">
         <h2>Add Delivery</h2>
         <TextField

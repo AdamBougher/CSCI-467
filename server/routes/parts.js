@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 const connection = mysql.createConnection({
   host: "blitz.cs.niu.edu",
@@ -24,7 +24,7 @@ router.get("/api/parts", (req, res) => {
       res.status(500).json({ error: 'Error fetching parts' });
       return;
     }
-    console.log("rows: ", rows);
+    // console.log("rows: ", rows);
     res.json(rows);
   });
 });
