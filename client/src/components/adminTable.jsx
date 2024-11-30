@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,20 +6,42 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
+import React, { useState, useEffect } from "react"; 
+import axios from 'axios';
 
 function createData(
-  qty: number,
-  product: String,
-) {
+  qty,
+  product
+) 
+{
   return { qty, product };
 }
 
-const rows = [
-  createData(15, 'Cars'),
-  createData(10, 'Ege'),
-];
-
 export default function AdminTable(props) {
+  const [parts, setParts] = useState([]);
+
+  const fetchAPI = async () => {
+    const response = await axios.get('http://localhost:8080/api/parts');
+    setParts(response.data);
+  }
+
+  useEffect(() => {
+      fetchAPI();
+      console.log(parts[0].price);
+  }, []);
+
+  const rows = [
+    [
+      createData(15, parts[0].description),
+      createData(10, parts[4].description),
+    ],
+
+    [
+      createData(17, parts[3].description),
+      createData(38, parts[8].description),
+    ]
+  ];
+
   return (
     <div>
         <TableContainer component={Paper}>
@@ -48,7 +69,7 @@ export default function AdminTable(props) {
             </TableRow>
 
             <TableBody>
-            {rows.map((row) => (
+            {rows[props.orderNum].map((row) => (
                 <TableRow
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
