@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
 import './App.css'
-import axios from 'axios'
-import { HashRouter as Router, Routes, Route, BrowserRouter} from 'react-router-dom'
+import { Routes, Route, BrowserRouter} from 'react-router-dom'
 import SiteNav from "./components/siteNav"; // Use default import
 import Header from "./components/Header";
 
