@@ -7,8 +7,6 @@ import Parts from "../components/parts";
 export default function Warehouse() {
   return (
     <body>
-      <Header />
-      <SiteNav />
       <h2>Orders to Process</h2>
     </body>
   );

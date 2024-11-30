@@ -1,28 +1,24 @@
-import { Component } from 'react';
+import React, { useState, useEffect } from "react"; 
 import { ItemCard } from "./itemCard"; // Use named import
+import axios from 'axios';
 
-class Parts extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            parts: []
-        };
+const Parts = () => {
+    const [parts, setParts] = useState([]);
+
+    const fetchAPI = async () => {
+        const response = await axios.get('http://localhost:8080/api/parts');
+        setParts(response.data);
     }
 
-    componentDidMount() {
-        fetch("/api/parts")
-            .then((res) => res.json())
-            .then((parts) => {
-                this.setState({ parts: parts});
-            })
-    }
+    useEffect(() => {
+        fetchAPI();
+    }, []);
 
-    render() {
-        return (
+    return (
         <div>
             <ul>
                 {
-                this.state.parts.map((part) => (
+                parts.map((part) => (
                     <ItemCard
                         image={part.pictureURL}
                         name={part.number}
@@ -31,15 +27,10 @@ class Parts extends Component {
                         weight={part.weight}
                     />
                 ))
-            }
-
-
-
+                }
             </ul>
         </div>
     );
-  }
 }
-
 
 export default Parts;

@@ -14,8 +14,6 @@ import {
 export default function Desk() {
     return (
       <body>
-        <Header />
-        <SiteNav />
         <Table class="desk">
         <TableHead>
           <TableRow>
