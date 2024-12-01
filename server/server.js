@@ -1,17 +1,17 @@
 const express = require('express');
 const app = express();
-const parts = require("./routes/legacyDB");
+const { router: localDBRouter, initialize } = require('./routes/localDB');
 const cors = require("cors");
-const coresOptions = {
+const corsOptions = {
   origin: "http://localhost:5173",
 };
-
 const port = process.env.PORT || 8080;
 
-app.use(cors(coresOptions));
+app.use(cors(corsOptions));
 
-app.get("/api/parts", parts);
+app.use('/api', localDBRouter);
 
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);
+  await initialize();
 });
