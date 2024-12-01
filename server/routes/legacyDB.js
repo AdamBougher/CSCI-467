@@ -24,7 +24,6 @@ router.get("/api/parts", (req, res) => {
       res.status(500).json({ error: 'Error fetching parts' });
       return;
     }
-    // console.log("rows: ", rows);
     res.json(rows);
   });
 });

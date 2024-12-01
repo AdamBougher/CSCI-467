@@ -6,8 +6,7 @@ USE `local`;
 CREATE TABLE 'quantity'
 (
     'qty' INT(5) NOT NULL,
-    'number' int(11) NOT NULL,
-    FOREIGN KEY ('number') REFERENCES 'parts'('number')
+    'number' int(11) NOT NULL PRIMARY KEY,
 );
 
 --show table

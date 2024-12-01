@@ -12,7 +12,7 @@ export function ItemCard(props) {
         <h2>{props.name}</h2>
         <h3>${props.cost}</h3>
         <h4>Weight: {props.weight}</h4>
-        <h4>{props.descr}</h4>
+        <h4>{props.quantity} - In stock</h4>
         <button type="button">Add To Cart</button>
       </div>
       <div className="clear"></div>

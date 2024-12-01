@@ -6,7 +6,7 @@ const Parts = () => {
     const [parts, setParts] = useState([]);
 
     const fetchAPI = async () => {
-        const response = await axios.get('http://localhost:8080/api/parts');
+        const response = await axios.get('http://localhost:8080/api/site-db');
         setParts(response.data);
     }
 
@@ -20,8 +20,8 @@ const Parts = () => {
             parts.map((part) => (
                 <ItemCard
                     image={part.pictureURL}
-                    name={part.number}
-                    descr={part.description}
+                    name={part.description}
+                    quantity={part.quantity}
                     cost={part.price}
                     weight={part.weight}
                 />
