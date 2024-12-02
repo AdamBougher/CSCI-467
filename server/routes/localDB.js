@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql2/promise');
-
 // Local database connection pool
 
 // TODO: Update to use one of our student DB's
 const localPool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
+  host: '199.204.85.65',
+  user: 'admin',
+  password: '1110VarsityBlvd',
   database: 'local',
 });
 
@@ -56,6 +55,9 @@ router.get('/quantity', async (req, res) => {
 // Function to check and make sure that the local database has all the parts from the remote database
 async function initialize() {
   try {
+    // Create the quantity table if it does not exist
+    await localPool.query('CREATE TABLE IF NOT EXISTS quantity (qty INT, number INT, PRIMARY KEY (number))');
+
     // if there is a new item in remote that is not in local, add it to local t otrack quantity
     const [remoteParts] = await remotePool.query('SELECT * FROM parts');
     for (const part of remoteParts) {
