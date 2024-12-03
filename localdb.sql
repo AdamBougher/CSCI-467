@@ -11,3 +11,13 @@ CREATE TABLE 'quantity'
 
 --show table
 --SELECT * FROM 'quantity';
+
+CREATE TABLE orderpart 
+(
+    PARTID INT(4) NOT NULL PRIMARY KEY,
+    itemquan INT(2) NOT NULL,
+    tweight FLOAT(6) NOT NULL,
+    tcost FLOAT(6) NOT NULL,
+    ordernum INT(5) AUTO_INCREMENT,
+    custname VARCHAR(25) NOT NULL
+);
