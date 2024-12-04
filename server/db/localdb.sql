@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS "quantity" (
+    "qty" INTEGER NOT NULL,
+    "number" INTEGER NOT NULL PRIMARY KEY
+);
