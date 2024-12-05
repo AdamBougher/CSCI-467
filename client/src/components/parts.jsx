@@ -3,8 +3,7 @@ import { ItemCard } from "./itemCard"; // Use named import
 import axios from 'axios';
 
 const Parts = (props) => {
-    const { cartAmt, setCount,} = props;
-
+    const { cart, addToCart } = props;
     const [parts, setParts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const partsPerPage = 30;
@@ -61,6 +60,8 @@ const Parts = (props) => {
                     cost={part.price}
                     weight={part.weight}
                     itemID={part.number}
+                    cart = {cart}
+                    addToCart = {addToCart}
                 />
             ))}
 
