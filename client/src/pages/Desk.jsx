@@ -9,7 +9,7 @@ export default function ReceivingDesk() {
   const [quantity, setQuantity] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  //fetch products from the database
+  //fetch products from the database!!!!!!
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/products');

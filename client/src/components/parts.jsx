@@ -7,7 +7,7 @@ const Parts = (props) => {
 
     const [parts, setParts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const partsPerPage = 30; // CHANGE THEM HERE. IT SPLITS THEM 
+    const partsPerPage = 30; // CHANGE THEM HERE. IT SPLITS THEM!
 
     const fetchAPI = async () => {
         try {
