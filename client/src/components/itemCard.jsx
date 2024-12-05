@@ -1,26 +1,25 @@
 import React from 'react';
 import "../App.css";
-import { useState } from 'react';
 
 export function ItemCard(props) {
-  const [count, setCount] = useState(0);
+  const { cartAmt, setCount, cost, image, name, weight, quantity, itemID } = props;
 
   function handleClick() {
-    setCount(count + props.cost);
+    setCount(cartAmt + 1);
   }
 
   return (
     <div className="item-card">
       <div id="left">
-        <img src={props.image} alt={props.name} />
+        <img src={image} alt={name} />
       </div>
       
       <div className="right-text">
-        <h2>{props.name}</h2>
-        <h3>${props.cost}</h3>
-        <h4>Weight: {props.weight}</h4>
-        <h4>{props.quantity} - In stock</h4>
-        <button onClick={handleClick}>Add To Cart ${count}</button>
+        <h2>{name}</h2>
+        <h3>${cost}</h3>
+        <h4>Weight: {weight}</h4>
+        <h4>{quantity} - In stock</h4>
+        <button onClick={handleClick}>Add To Cart</button>
       </div>
       <div className="clear"></div>
     </div>
