@@ -24,7 +24,7 @@ const remotePool = mysql.createPool({
 async function initialize() {
   try {
     // Read SQL file
-    const setupSQL = fs.readFileSync(path.join(__dirname, '..', 'db', 'localDB.sql'), 'utf8');
+    const setupSQL = fs.readFileSync(path.join(__dirname, '..', 'db', 'localdb.sql'), 'utf8');
 
     db.serialize(() => {
       db.exec(setupSQL, (err) => {
