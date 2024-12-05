@@ -19,8 +19,14 @@ const Parts = (props) => {
         }
     };
 
+    //update list every 30 seconds
     useEffect(() => {
         fetchAPI();
+        const interval = setInterval(() => {
+            fetchAPI();
+        }, 30000);
+
+        return () => clearInterval(interval);
     }, []);
 
     //calculate the index range for the current page
