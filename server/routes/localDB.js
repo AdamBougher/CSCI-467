@@ -183,4 +183,17 @@ router.put('/orders/:id', async (req, res) => {
   });
 });
 
+router.put('/orders/add', async (req, res) => {
+  const { name, email, address, weight, total, shippingCost } = req.body;
+  db.run(
+    `INSERT INTO orders (name, email, address, weight, total, shippingCost)VALUES (?, ?, ?, ?, ?, ?)`, 
+        [name, email, address, weight, total, shippingCost], function(err) {
+    if (err) {
+      console.error('Error updating order:', err);
+      return res.status(500).json({ error: 'Error updating order' });
+    }
+    res.json({ id, shipped: 1 });
+  });
+});
+
 module.exports = { router, initialize };

@@ -15,6 +15,15 @@ CREATE TABLE IF NOT EXISTS "orders" (
     "Shipped" INTEGER DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS "orderLines" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "orderId" INTEGER NOT NULL,
+    "itemId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "price" DECIMAL(9,2) NOT NULL,
+    FOREIGN KEY ("orderId") REFERENCES "orders" ("id")
+);
+
 CREATE TABLE IF NOT EXISTS "weightRanges" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "weight" DECIMAL(9,2) DEFAULT 0.00,
@@ -33,3 +42,6 @@ CREATE TABLE IF NOT EXISTS "weightRanges" (
 -- INSERT INTO orders (name, email, address, weight, total, shippingCost) VALUES
 -- ('Adam Bougher', 'adam@email.com', '1234 Main St, Anytown, USA', 10, 100.00, 15.00),
 -- ('Jane Doe', 'jane@mail.com', '1234 Elm St, Anytown, USA', 25, 250.00, 25.00);
+
+INSERT INTO orders (name, email, address, weight, total, shippingCost)
+VALUES ('Adam Bougher', 'adamsauce99@gmail.com', '1234 Main St, Anytown, USA', 10, 100.00, 15.00);
