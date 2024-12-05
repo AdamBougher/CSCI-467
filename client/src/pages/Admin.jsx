@@ -6,6 +6,7 @@ export default function Admin() {
     const [orders, setParts] = useState([]);
     const [weight, setWight] = useState([]);
 
+    /* hi*/
     const fetchAPI = async () => {
         const response = await axios.get("http://localhost:8080/api/orders");
         const weightResponse = await axios.get("http://localhost:8080/api/weight");
