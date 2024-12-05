@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Header = (props) => {
   const { cart } = props;
-
+  let cartAmt = 0;
   const [parts, setParts] = useState([]);
 
   const fetchAPI = async () => {
@@ -14,6 +16,15 @@ const Header = (props) => {
   useEffect(() => {
       fetchAPI();
   }, []);
+
+  for (let [key, value] of cart) {
+    parts.forEach((part) => {
+      if(part.number == key) {
+        console.log("Someone bought " + value + " " + part.description);
+        cartAmt += (value * part.price)
+      }
+    });
+  }
 
     return (
       <header className="header">
@@ -26,12 +37,12 @@ const Header = (props) => {
 
         <Link to="/Checkout">
           <div className="shopping-cart-container">
-            <h2>{cartAmt}</h2>
             <img 
               src="/shopping-cart.png" 
               alt="Cart" 
               className="shopping-cart" 
             />
+            <h2>${cartAmt}</h2>
           </div>
         </Link>
       </header>
