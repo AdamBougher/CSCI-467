@@ -1,121 +1,105 @@
-import React, { useState } from "react";
-import SiteNav from "../components/siteNav";
-import Header from "../components/Header";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { TextField, Button, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import '../App.css';
-import {
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Button,
-  TextField,
-} from "@mui/material";
-//^^^ tables
 
-export default function Desk() {
+export default function ReceivingDesk() {
   const [products, setProducts] = useState([]);
-  const [newProduct, setNewProduct] = useState({
-    orderNumber: "",
-    partNumber: "",
-    description: "",
-    quantity: "",
-  });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [quantity, setQuantity] = useState(0);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  //add product
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewProduct((prev) => ({ ...prev, [name]: value }));
+  //fetch products from the database
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/products');
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    }
   };
 
-  //add a new product to the inventory
-  const handleAddProduct = () => {
-    setProducts((prev) => [...prev, newProduct]);
-    setNewProduct({ orderNumber: "", partNumber: "", description: "", quantity: "" });
-  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-  //clear form and product list
-  const handleClear = () => {
-    setProducts([]);
-    setNewProduct({ orderNumber: "", partNumber: "", description: "", quantity: "" });
-  };
+  //filter products based on search query
+  useEffect(() => {
+    const lowercasedQuery = searchQuery.toLowerCase();
+    const results = products.filter(product =>
+      product.description.toLowerCase().includes(lowercasedQuery) ||
+      product.partNumber.toLowerCase().includes(lowercasedQuery)
+    );
+    setFilteredProducts(results);
+  }, [searchQuery, products]);
 
-  //remove a specific product
-  const handleRemoveProduct = (indexToRemove) => {
-    setProducts((prev) => prev.filter((_, index) => index !== indexToRemove));
+  //update product quantity
+  const updateQuantity = async (productId) => {
+    try {
+      const productToUpdate = products.find(product => product.id === productId);
+      const newQuantity = productToUpdate.quantityOnHand + parseInt(quantity, 10);
+
+      await axios.put(`http://localhost:8080/api/products/${productId}`, {
+        quantityOnHand: newQuantity
+      });
+
+      setQuantity(0); //reset input field
+      fetchProducts(); //refresh data
+    } catch (error) {
+      console.error("Error updating product quantity:", error);
+    }
   };
 
   return (
-    <body>
-        <h1>Receiving Desk</h1>
-      <div className="form-container">
-        <h2>Add Delivery</h2>
+    <div className="receiving-desk">
+      <h2>Receiving Desk - Update Inventory</h2>
+
+      <div className="search-bar">
         <TextField
-          label="Order #"
-          name="orderNumber"
-          value={newProduct.orderNumber}
-          onChange={handleInputChange}
-          style={{ marginRight: 10 }}
+          label="Search by Description or Part Number"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
         />
-        <TextField
-          label="Part Number"
-          name="partNumber"
-          value={newProduct.partNumber}
-          onChange={handleInputChange}
-          style={{ marginRight: 10 }}
-        />
-        <TextField
-          label="Description"
-          name="description"
-          value={newProduct.description}
-          onChange={handleInputChange}
-          style={{ marginRight: 10 }}
-        />
-        <TextField
-          label="Quantity"
-          name="quantity"
-          type="number"
-          value={newProduct.quantity}
-          onChange={handleInputChange}
-          style={{ marginRight: 10 }}
-        />
-        <Button variant="contained" onClick={handleAddProduct} style={{ marginRight: 10 }}>
-          Add Product
-        </Button>
-        <Button variant="outlined" onClick={handleClear}>
-          Clear All
-        </Button>
       </div>
-      <Table className="desk">
+
+      <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Order #</TableCell>
             <TableCell>Part Number</TableCell>
             <TableCell>Description</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell>Remove</TableCell>
+            <TableCell>Quantity On Hand</TableCell>
+            <TableCell>Update Quantity</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {products.map((product, index) => (
-            <TableRow key={index}>
-              <TableCell>{product.orderNumber}</TableCell>
+          {filteredProducts.map(product => (
+            <TableRow key={product.id}>
               <TableCell>{product.partNumber}</TableCell>
               <TableCell>{product.description}</TableCell>
-              <TableCell>{product.quantity}</TableCell>
+              <TableCell>{product.quantityOnHand}</TableCell>
               <TableCell>
-                <Button
+                <TextField
+                  type="number"
+                  label="Add Quantity"
                   variant="outlined"
-                  color="error"
-                  onClick={() => handleRemoveProduct(index)}
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  style={{ marginRight: '10px' }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => updateQuantity(product.id)}
                 >
-                  Remove
+                  Update
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </body>
+    </div>
   );
 }
