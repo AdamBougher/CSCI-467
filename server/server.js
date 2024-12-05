@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { router: localDBRouter, initialize } = require('./routes/localDB');
+const { router: localDBRouter, initialize } = require('./routes/localdb');
 const cors = require("cors");
 const corsOptions = {
   origin: "http://localhost:5173",
