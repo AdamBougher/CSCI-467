@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { ItemCard } from "./itemCard"; // Use named import
+import { ItemCard } from "./itemCard"; 
 import axios from 'axios';
 
 const Parts = (props) => {
-    const { cartAmt, setCount,} = props;
+    const { cartAmt, setCount } = props;
 
     const [parts, setParts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const partsPerPage = 30;
+    const partsPerPage = 30; // CHANGE THEM HERE. IT SPLITS THEM 
 
     const fetchAPI = async () => {
-        //switched to try
         try {
             const response = await axios.get('http://localhost:8080/api/site-db');
             setParts(response.data);
@@ -50,29 +49,31 @@ const Parts = (props) => {
     };
 
     return (
-        <div className="parts">
-            {/* current page */}
-            {currentParts.map((part) => (
-                <ItemCard
-                    key={part.id}
-                    image={part.pictureURL}
-                    name={part.description}
-                    quantity={part.quantity}
-                    cost={part.price}
-                    weight={part.weight}
-                    itemID={part.number}
-                />
-            ))}
+        <div className="parts-container" style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+            {/* items */}
+            <div className="parts-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", flex: "1" }}>
+                {currentParts.map((part) => (
+                    <ItemCard
+                        key={part.id}
+                        image={part.pictureURL}
+                        name={part.description}
+                        quantity={part.quantity}
+                        cost={part.price}
+                        weight={part.weight}
+                        itemID={part.number}
+                    />
+                ))}
+            </div>
 
-            {/*page control*/}
-            <div className="pagination">
-                <button onClick={prevPage} disabled={currentPage === 1}>
+            {/*pagination controls */}
+            <div className="pagination" style={{ textAlign: "center", padding: "10px", marginTop: "auto" }}>
+                <button onClick={prevPage} disabled={currentPage === 1} style={{ marginRight: "10px" }}>
                     Previous
                 </button>
                 <span>
                     Page {currentPage} of {totalPages}
                 </span>
-                <button onClick={nextPage} disabled={currentPage === totalPages}>
+                <button onClick={nextPage} disabled={currentPage === totalPages} style={{ marginLeft: "10px" }}>
                     Next
                 </button>
             </div>
