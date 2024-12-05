@@ -38,8 +38,8 @@ export function ItemCard(props) {
         <h3>${cost}</h3>
         <h4>Weight: {weight}</h4>
         <h4>{quantity} - In stock</h4>
-        <button onClick={() => handleClick(itemID)}>Add To Cart {cart.get(itemID)}</button>
-        <button onClick={() => removeItem(itemID)}>Remove From Cart {cart.get(itemID)}</button>
+        <button onClick={() => handleClick(itemID)}>Add To Cart ({cart.get(itemID) || 0})</button>
+        <button onClick={() => removeItem(itemID)}>Remove From Cart</button>
       </div>
       <div className="clear"></div>
     </div>
