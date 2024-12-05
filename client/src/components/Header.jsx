@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = (props) => {
+  const { cartAmt, setCount } = props;
+
     return (
       <header className="header">
         
@@ -13,6 +15,7 @@ const Header = () => {
 
         <Link to="/Checkout">
           <div className="shopping-cart-container">
+            <h2>{cartAmt}</h2>
             <img 
               src="/shopping-cart.png" 
               alt="Cart" 

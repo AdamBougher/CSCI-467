@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { ItemCard } from "./itemCard"; // Use named import
 import axios from 'axios';
 
-const Parts = () => {
+const Parts = (props) => {
+    const { cartAmt, setCount,} = props;
+
     const [parts, setParts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const partsPerPage = 30;
@@ -52,6 +54,7 @@ const Parts = () => {
                     quantity={part.quantity}
                     cost={part.price}
                     weight={part.weight}
+                    itemID={part.number}
                 />
             ))}
 
