@@ -2,7 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = (props) => {
-  const { cartAmt, setCount } = props;
+  const { cart } = props;
+
+  const [parts, setParts] = useState([]);
+
+  const fetchAPI = async () => {
+      const response = await axios.get('http://localhost:8080/api/site-db');
+      setParts(response.data);
+  }
+
+  useEffect(() => {
+      fetchAPI();
+  }, []);
 
     return (
       <header className="header">
