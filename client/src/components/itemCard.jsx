@@ -14,6 +14,19 @@ export function ItemCard(props) {
     });
   }
 
+  function removeItem(id) {
+    addToCart((prevCart) => {
+        const cartMap = new Map(prevCart); 
+        const value = cartMap.get(id) || 0; 
+
+        if(value > 0) {
+          cartMap.set(id, value - 1); 
+        }
+        
+        return cartMap;
+    });
+  }
+
   return (
     <div className="item-card">
       <div id="left">
@@ -25,7 +38,8 @@ export function ItemCard(props) {
         <h3>${cost}</h3>
         <h4>Weight: {weight}</h4>
         <h4>{quantity} - In stock</h4>
-        <button onClick={() => handleClick(itemID)}>Add To Cart</button>
+        <button onClick={() => handleClick(itemID)}>Add To Cart {cart.get(itemID)}</button>
+        <button onClick={() => removeItem(itemID)}>Remove From Cart {cart.get(itemID)}</button>
       </div>
       <div className="clear"></div>
     </div>
