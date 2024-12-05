@@ -20,7 +20,6 @@ const Header = (props) => {
   for (let [key, value] of cart) {
     parts.forEach((part) => {
       if(part.number == key) {
-        console.log("Someone bought " + value + " " + part.description);
         cartAmt += (value * part.price)
       }
     });
