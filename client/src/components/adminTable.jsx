@@ -6,41 +6,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
-import React, { useState, useEffect } from "react"; 
-import axios from 'axios';
 
-function createData(
-  qty,
-  product
-) 
-{
-  return { qty, product };
-}
+const AdminTable = (props) => {
 
-export default function AdminTable(props) {
-  const [parts, setParts] = useState([]);
 
-  const fetchAPI = async () => {
-    const response = await axios.get('http://localhost:8080/api/parts');
-    setParts(response.data);
-  }
-
-  useEffect(() => {
-      fetchAPI();
-      console.log(parts[0].price);
-  }, []);
-
-  const rows = [
-    [
-      createData(15, parts[0].description),
-      createData(10, parts[4].description),
-    ],
-
-    [
-      createData(17, parts[3].description),
-      createData(38, parts[8].description),
-    ]
-  ];
 
   return (
     <div>
@@ -48,10 +17,15 @@ export default function AdminTable(props) {
         <Table sx={{ maxWidth: 200 }} aria-label="simple table">
             <TableHead>
             <TableRow>
-                <TableCell>Hi</TableCell>
-                <TableCell align="left">Order #123</TableCell>
+                <TableCell>Order ID</TableCell>
+                <TableCell align="left">{props.id}</TableCell>
             </TableRow>
             </TableHead>
+
+            <TableRow>
+                <TableCell>Status:</TableCell>
+                <TableCell align="left">{props.Shipped}</TableCell>
+            </TableRow>
 
             <TableRow>
                 <TableCell>Name:</TableCell>
@@ -69,15 +43,6 @@ export default function AdminTable(props) {
             </TableRow>
 
             <TableBody>
-            {rows[props.orderNum].map((row) => (
-                <TableRow
-                key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                <TableCell align="left">{row.qty}</TableCell>
-                <TableCell align="left">{row.product}</TableCell>
-                </TableRow>
-            ))}
             </TableBody>
         </Table>
         </TableContainer>
@@ -85,4 +50,6 @@ export default function AdminTable(props) {
         <Divider orientation="vertical" variant="middle" flexItem />
     </div>
   );
-}
+};
+
+export default AdminTable;
