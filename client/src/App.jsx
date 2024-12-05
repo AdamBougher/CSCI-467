@@ -11,18 +11,18 @@ import Checkout from "./pages/Checkout";
 import Warehouse from "./pages/Warehouse";
 import Desk from "./pages/Desk";
 
-
 function App() {
   const [cartAmt, setCount] = useState(0);
+  const [cart, addToCart] = useState(new Map());
 
   return (
     <BrowserRouter>
-      <Header cartAmt={cartAmt}/>
+      <Header cart={cart}/>
       <SiteNav />
       <Routes>
-        <Route path="/" element={<Home cartAmt={cartAmt} setCount={setCount}/> }/>
+        <Route path="/" element={<Home cart={cart} addToCart={addToCart}/> }/>
         <Route path="/Admin" element={<Admin/>}/>
-        <Route path="/Checkout" element={<Checkout/>}/>
+        <Route path="/Checkout" element={<Checkout cart={cart}/>}/>
         <Route path="/Warehouse" element={<Warehouse/>}/>
         <Route path="/Desk" element={<Desk/>}/>
       </Routes>

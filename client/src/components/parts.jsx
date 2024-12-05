@@ -3,8 +3,7 @@ import { ItemCard } from "./itemCard";
 import axios from 'axios';
 
 const Parts = (props) => {
-    const { cartAmt, setCount } = props;
-
+    const { cart, addToCart } = props;
     const [parts, setParts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const partsPerPage = 30; // CHANGE THEM HERE. IT SPLITS THEM!
@@ -49,6 +48,21 @@ const Parts = (props) => {
     };
 
     return (
+        <div className="parts">
+            {/* current page */}
+            {currentParts.map((part) => (
+                <ItemCard
+                    key={part.id}
+                    image={part.pictureURL}
+                    name={part.description}
+                    quantity={part.quantity}
+                    cost={part.price}
+                    weight={part.weight}
+                    itemID={part.number}
+                    cart = {cart}
+                    addToCart = {addToCart}
+                />
+            ))}
         <div className="parts-container" style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
             {/* items */}
             <div className="parts-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", flex: "1" }}>

@@ -3,11 +3,11 @@ import React from 'react';
 import Parts from "../components/parts";
 
 export default function Home(props) {
-  const { cartAmt, setCount,} = props;
+  const { cart, addToCart } = props;
 
   return (
     <section className="parts-container">
-      <Parts cartAmt={cartAmt} setCount={setCount}/>
+      <Parts cart={cart} addToCart={addToCart}/>
     </section>
   );
 }
