@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Construct the correct path to the partsDb.sqlite file
-const dbPath = path.join(__dirname, '..', 'db', 'partsDb.sqlite');
+const dbPath = path.join(__dirname, '..', 'db', 'partsdb.sqlite');
 const db = new sqlite3.Database(dbPath);
 
 // Remote database connection pool
@@ -24,7 +24,7 @@ const remotePool = mysql.createPool({
 async function initialize() {
   try {
     // Read SQL file
-    const setupSQL = fs.readFileSync(path.join(__dirname, '..', 'db', 'localDB.sql'), 'utf8');
+    const setupSQL = fs.readFileSync(path.join(__dirname, '..', 'db', 'localdb.sql'), 'utf8');
 
     db.serialize(() => {
       db.exec(setupSQL, (err) => {
