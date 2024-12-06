@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material';
 import axios from 'axios';
-import { jsPDF } from 'jspdf';
+import jsPDF from 'jspdf';
 
 export default function Warehouse() {
   const [orders, setOrders] = useState([]);
