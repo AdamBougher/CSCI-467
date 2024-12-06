@@ -311,5 +311,17 @@ router.put('/orderLines/add', async (req, res) => {
   );
 });
 
+//route to get all orderLines foir a specific order
+router.get('/orderLines/:orderId', async (req, res) => {
+  const { orderId } = req.params;
+  db.all('SELECT * FROM orderLines WHERE orderId = ?', [orderId], (err, rows) => {
+    if (err) {
+      console.error('Error fetching order lines:', err);
+      return res.status(500).json({ error: 'Error fetching order lines' });
+    }
+    res.json(rows);
+  });
+});
+
 
 module.exports = { router, initialize };
