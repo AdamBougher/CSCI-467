@@ -15,6 +15,15 @@ CREATE TABLE IF NOT EXISTS "orders" (
     "Shipped" INTEGER DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS "orderLines" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "orderId" INTEGER NOT NULL,
+    "itemId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "price" DECIMAL(9,2) NOT NULL,
+    FOREIGN KEY ("orderId") REFERENCES "orders" ("id")
+);
+
 CREATE TABLE IF NOT EXISTS "weightRanges" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "weight" DECIMAL(9,2) DEFAULT 0.00,

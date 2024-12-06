@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import SiteNav from '../components/siteNav';
 import Header from "../components/Header";
-import { useState, useEffect } from "react"; 
 import axios from 'axios';
 
 export default function Checkout(props) {
     const { cart, cartAmt } = props;
     const [parts, setParts] = useState([]);
+    const [showPopup, setShowPopup] = useState(false); // Popup state
+    const [formData, setFormData] = useState({ // Form data state
+        name: '',
+        email: '',
+        address: '',
+        creditCard: '',
+        cvc: '',
+        expiration: '',
+    });
 
     const fetchAPI = async () => {
         const response = await axios.get('http://localhost:8080/api/site-db');
@@ -24,17 +32,6 @@ export default function Checkout(props) {
     const [CC, setCC] = useState("7");
     const [CVC, setCVC] = useState("111");
     const [expir, setExpir] = useState("7/30");
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Name:", ccName);
-        console.log("Email:", email);
-        console.log("Address:", addr);
-        console.log("CC #:", CC);
-        console.log("CVC:", CVC);
-        console.log("Expiration Date:", expir);
-        await creditCardProcess();
-    };
 
     async function creditCardProcess() {
         let transID = 'RYAN-' + (Math.random()*10000).toString()
@@ -53,6 +50,43 @@ export default function Checkout(props) {
             console.error('Error processing payment:', error);
         }
     }
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData({
+    //         ...formData,
+    //         [name]: value,
+    //     });
+    // };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        e.preventDefault();
+
+        console.log("Name:", ccName);
+        console.log("Email:", email);
+        console.log("Address:", addr);
+        console.log("CC #:", CC);
+        console.log("CVC:", CVC);
+        console.log("Expiration Date:", expir);
+        await creditCardProcess();
+
+        setShowPopup(true); // Show the popup
+    };
+
+    const closePopup = () => {
+        setShowPopup(false);
+    };
+
+    //To be used later (When/if we want to list out the order on the checkout page)
+    // for (let [key, value] of cart) {
+    //     parts.forEach((part) => {
+    //     if(part.number == key) {
+    //         <h2>{value}x {part.name}: ${part.price * value}</h2>
+    //     }
+    //     });
+    // }
+    // To be used later
 
     return (
         <div className="checkout-container">
@@ -77,8 +111,8 @@ export default function Checkout(props) {
                             type="text"
                             id="name"
                             name="name"
+                            value={formData.name}
                             placeholder="Enter your full name"
-                            value={ccName} 
                             onChange={(e) => setName(e.target.value)} 
                         />
                     </div>
@@ -88,8 +122,8 @@ export default function Checkout(props) {
                             type="email"
                             id="email"
                             name="email"
+                            value={formData.email}
                             placeholder="Enter your email"
-                            value={email} 
                             onChange={(e) => setEmail(e.target.value)} 
                         />
                     </div>
@@ -99,8 +133,8 @@ export default function Checkout(props) {
                             type="text"
                             id="address"
                             name="address"
+                            value={formData.address}
                             placeholder="Enter your address"
-                            value={addr} 
                             onChange={(e) => setAddr(e.target.value)} 
                         />
                     </div>
@@ -111,8 +145,8 @@ export default function Checkout(props) {
                             type="text"
                             id="credit-card"
                             name="creditCard"
+                            value={formData.creditCard}
                             placeholder="Enter your card number"
-                            value={CC} 
                             onChange={(e) => setCC(e.target.value)} 
                         />
                     </div>
@@ -123,8 +157,8 @@ export default function Checkout(props) {
                                 type="text"
                                 id="cvc"
                                 name="cvc"
-                                placeholder="CVC"
-                                value={CVC} 
+                                value={formData.cvc}
+                                placeholder="CVC" 
                                 onChange={(e) => setCVC(e.target.value)}
                             />
                         </div>
@@ -134,8 +168,8 @@ export default function Checkout(props) {
                                 type="text"
                                 id="expiration"
                                 name="expiration"
+                                value={formData.expiration}
                                 placeholder="MM/YY"
-                                value={expir} 
                                 onChange={(e) => setExpir(e.target.value)} 
                             />
                         </div>
@@ -145,6 +179,19 @@ export default function Checkout(props) {
                     </button>
                 </form>
             </div>
+
+            {showPopup && ( // Popup componentsssss
+                <div className="popup">
+                    <div className="popup-content">
+                        <h2>Order Confirmed!</h2>
+                        <p>Thank you, {formData.name}, for your order.</p>
+                        <p>A confirmation email will be sent to {formData.email}.</p>
+                        <button onClick={closePopup} className="close-popup-button">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
