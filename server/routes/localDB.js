@@ -171,6 +171,20 @@ router.get('/orders/warehouseOrders', async (req, res) => {
   });
 });
 
+router.post('/orders/place', async (req, res) => {
+  const { id } = req.params;
+  const { name, email, address, weight, total, shippingCost } = req.body;
+
+  db.run('INSERT INTO orders (name, email, address, weight, total, shippingCost)VALUES (?, ?, ?, ?, ?, ?)',
+     [name, email, address, weight, total, shippingCost], function(err) {
+    if (err) {
+      console.error('Error updating order:', err);
+      return res.status(500).json({ error: 'Error updating order' });
+    }
+    res.json({"Order placed with id": this.lastID});
+  });
+});
+
 //route to set the shipped status of an order to 1
 router.put('/orders/:id', async (req, res) => {
   const { id } = req.params;
@@ -182,5 +196,65 @@ router.put('/orders/:id', async (req, res) => {
     res.json({ id, shipped: 1 });
   });
 });
+
+// Route to update weight and cost in weightRanges
+router.put('/weight/set/:id', async (req, res) => {
+  const { id } = req.params;
+  const { weight, cost } = req.body; // Extract weight and cost from request body
+
+  if (weight !== undefined) {
+    db.run('UPDATE weightRanges SET weight = ? WHERE id = ?', [weight, id], function(err) {
+      if (err) {
+        console.error('Error updating weight:', err);
+        return res.status(500).json({ error: 'Error updating weight' });
+      }
+    });
+  }
+
+  if (cost !== undefined) {
+    db.run('UPDATE weightRanges SET cost = ? WHERE id = ?', [cost, id], function(err) {
+      if (err) {
+        console.error('Error updating cost:', err);
+        return res.status(500).json({ error: 'Error updating cost' });
+      }
+    });
+  }
+
+  res.json({ id, weight, cost });
+});
+
+router.put('/orders/add', async (req, res) => {
+  const { name, email, address, weight, total, shippingCost } = req.body;
+  db.run(
+    `INSERT INTO orders (name, email, address, weight, total, shippingCost)VALUES (?, ?, ?, ?, ?, ?)`, 
+        [name, email, address, weight, total, shippingCost], function(err) {
+    if (err) {
+      console.error('Error updating order:', err);
+      return res.status(500).json({ error: 'Error updating order' });
+    }
+    res.json({ id, shipped: 1 });
+  });
+});
+
+router.put('/inventory/add/:id', async (req, res) => {
+  const { id } = req.params;
+  const { amt } = req.body; // Extract amt from request body
+
+  console.log('id:', id, 'amt:', amt);
+
+  if (amt !== undefined) {
+    db.run('UPDATE quantity SET qty = qty + ? WHERE number = ?', [amt, id], function(err) {
+      if (err) {
+        console.error('Error updating quantity:', err);
+        return res.status(500).json({ error: 'Error updating quantity' });
+      }
+      res.json({ id, amt });
+    });
+  } else {
+    res.status(400).json({ error: 'Amount is required' });
+  }
+});
+
+
 
 module.exports = { router, initialize };

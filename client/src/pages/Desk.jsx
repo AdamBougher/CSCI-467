@@ -6,48 +6,50 @@ import '../App.css';
 export default function ReceivingDesk() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [quantity, setQuantity] = useState(0);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [orders, setParts] = useState([]);
+  const [quantities, setQuantities] = useState({}); // State object for storing quantities
 
-  //fetch products from the database!!!!!!
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/products');
-      setProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching product data:", error);
-    }
+  const fetchAPI = async () => {
+    const response = await axios.get('http://localhost:8080/api/site-db');
+    setParts(response.data);
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchAPI();
   }, []);
 
-  //filter products based on search query
+  // Filter products based on search query
   useEffect(() => {
     const lowercasedQuery = searchQuery.toLowerCase();
     const results = products.filter(product =>
       product.description.toLowerCase().includes(lowercasedQuery) ||
       product.partNumber.toLowerCase().includes(lowercasedQuery)
     );
-    setFilteredProducts(results);
   }, [searchQuery, products]);
 
-  //update product quantity
-  const updateQuantity = async (productId) => {
-    try {
-      const productToUpdate = products.find(product => product.id === productId);
-      const newQuantity = productToUpdate.quantityOnHand + parseInt(quantity, 10);
+  // Update product quantity
+  const updateQuantity = async (productId, amt) => {
 
-      await axios.put(`http://localhost:8080/api/products/${productId}`, {
-        quantityOnHand: newQuantity
-      });
-
-      setQuantity(0); //reset input field
-      fetchProducts(); //refresh data
-    } catch (error) {
-      console.error("Error updating product quantity:", error);
+    if(amt < 1 || amt == null) {
+      alert('Please enter a valid quantity');
+      return;
     }
+
+    try {
+      await axios.put(`http://localhost:8080/api/inventory/add/${productId}`, { amt });
+      console.log('Product #' + productId + ' quantity ' + amt + ' updated');
+      fetchAPI(); // Refresh data
+    } catch (error) {
+      console.error('Error updating product quantity:', error);
+    }
+  };
+
+  // Handle quantity change
+  const handleQuantityChange = (productId, value) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: value
+    }));
   };
 
   return (
@@ -74,24 +76,24 @@ export default function ReceivingDesk() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredProducts.map(product => (
-            <TableRow key={product.id}>
-              <TableCell>{product.partNumber}</TableCell>
+          {orders.map(product => (
+            <TableRow key={product.number}>
+              <TableCell>{product.number}</TableCell>
               <TableCell>{product.description}</TableCell>
-              <TableCell>{product.quantityOnHand}</TableCell>
+              <TableCell>{product.quantity}</TableCell>
               <TableCell>
                 <TextField
                   type="number"
                   label="Add Quantity"
                   variant="outlined"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  value={quantities[product.number] || ''}
+                  onChange={(e) => handleQuantityChange(product.number, parseInt(e.target.value))}
                   style={{ marginRight: '10px' }}
                 />
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => updateQuantity(product.id)}
+                  onClick={() => updateQuantity(parseInt(product.number), quantities[product.number])}
                 >
                   Update
                 </Button>
