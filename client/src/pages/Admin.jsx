@@ -40,7 +40,6 @@ export default function Admin() {
     }
   };
 
-  //method t oget orderliens with the order id
   const getOrderItems = async (id) => {
     try {
       const response = await axios.get(`http://localhost:8080/api/orderLines/${id}`);
@@ -89,6 +88,7 @@ export default function Admin() {
               date={order.date}
               total={order.total}
               Shipped={order.Shipped}
+              orderItems={order.orderItems || []} // Ensure orderItems is passed here
             />
           ))}
         </div>
