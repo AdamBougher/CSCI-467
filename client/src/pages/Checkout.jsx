@@ -146,7 +146,7 @@ export default function Checkout(props) {
                 </form>
             </div>
 
-            {showPopup && ( // Popup component
+            {showPopup && ( // Popup componentsssss
                 <div className="popup">
                     <div className="popup-content">
                         <h2>Order Confirmed!</h2>
