@@ -323,5 +323,17 @@ router.get('/orderLines/:id', async (req, res) => {
   });
 });
 
+//route to get itme info by id from remote
+router.get('/item/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await remotePool.query('SELECT * FROM parts WHERE number = ?', [id]);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error fetching item:', err);
+    res.status(500).json({ error: 'Error fetching item' });
+  }
+});
+
 
 module.exports = { router, initialize };

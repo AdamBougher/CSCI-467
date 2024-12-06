@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Checkout(props) {
-    const { cart, cartAmt } = props;
+    const { cart, cartAmt, addToCart } = props;
     const [parts, setParts] = useState([]);
     const [showPopup, setShowPopup] = useState(false); // Popup state
     const [formData, setFormData] = useState({ // Form data state
@@ -110,10 +111,9 @@ export default function Checkout(props) {
             if (orderSuccess) {
                 setShowPopup(true); // Show the popup;
                 setFormData(initialFormData);
-
-                cart.forEach((value, key) => {
-                    removeInventory(key, value);
-                });
+                
+                // remove everything from cart
+                addToCart(new Map());
 
                 cart.clear()
             } else {
@@ -286,9 +286,11 @@ export default function Checkout(props) {
                         <h2>Order Confirmed!</h2>
                         <p>Thank you, {formData.name}, for your order.</p>
                         <p>A confirmation email will be sent to {formData.email}.</p>
-                        <button onClick={closePopup} className="close-popup-button">
-                            Close
-                        </button>
+                        <Link to="/">
+                            <button onClick={closePopup} className="close-popup-button">
+                                Close
+                            </button>
+                        </Link>
                     </div>
                 </div>
             )}
