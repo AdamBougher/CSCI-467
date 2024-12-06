@@ -21,7 +21,6 @@ export default function Warehouse() {
       .then(() => fetchAPI());
   }
 
-
   return (
     <body>
       <h2>Orders to Process</h2>

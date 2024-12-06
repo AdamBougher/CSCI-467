@@ -25,7 +25,7 @@ export default function Checkout(props) {
     const [CVC, setCVC] = useState("111");
     const [expir, setExpir] = useState("7/30");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Name:", ccName);
         console.log("Email:", email);
@@ -33,8 +33,25 @@ export default function Checkout(props) {
         console.log("CC #:", CC);
         console.log("CVC:", CVC);
         console.log("Expiration Date:", expir);
-        
+        await creditCardProcess();
     };
+
+    async function creditCardProcess() {
+        const data = {
+            'vendor': 'VE001-99',
+            'trans': '907-987654321-296',
+            'cc': CC,
+            'name': ccName, 
+            'exp': expir, 
+            'amount': '654.32',
+        };
+        try {
+            const response = await axios.post('http://blitz.cs.niu.edu/creditcard', data);
+            console.log('Payment processed:', response.data);
+        } catch (error) {
+            console.error('Error processing payment:', error);
+        }
+    }
 
     return (
         <div className="checkout-container">
