@@ -65,12 +65,36 @@ export default function Checkout(props) {
         e.preventDefault();
         console.log("Form Data:", formData);
         const paymentSuccess = await creditCardProcess();
+
         if (paymentSuccess === true) {
-            setShowPopup(true); // Show the popup
-            cart.clear();
-            setFormData(initialFormData);
-        }else{
+            const orderSuccess = await submitOrder();
+            if (orderSuccess) {
+                setShowPopup(true); // Show the popup;
+                setFormData(initialFormData);
+                cart.clear()
+            } else {
+                alert('Order submission failed. Please try again.');
+            }
+        } else {
             alert('Payment failed. Please try again.');
+        }
+    };
+
+    const submitOrder = async () => {
+        const data = {
+            name: formData.name,
+            email: formData.email,
+            address: formData.address,
+            weight: cartAmt,
+            total: cartAmt,
+            shippingCost: 0,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/orders/place', data);
+            console.log('Order submitted:', response.data);
+        } catch (error) {
+            console.error('Error submitting order:', error);
         }
     };
 
