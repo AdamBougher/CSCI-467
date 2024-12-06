@@ -18,15 +18,23 @@ export default function Checkout(props) {
         fetchAPI();
     }, []);
 
-    // To be used later (When/if we want to list out the order on the checkout page)
-    // for (let [key, value] of cart) {
-    //     parts.forEach((part) => {
-    //     if(part.number == key) {
-    //         <h2>{value}x {part.name}: ${part.price * value}</h2>
-    //     }
-    //     });
-    // }
-    // To be used later
+    const [ccName, setName] = useState("");
+    const [email, setEmail] = useState("@gmail.com");
+    const [addr, setAddr] = useState("1234 Street");
+    const [CC, setCC] = useState("7");
+    const [CVC, setCVC] = useState("111");
+    const [expir, setExpir] = useState("7/30");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Name:", ccName);
+        console.log("Email:", email);
+        console.log("Address:", addr);
+        console.log("CC #:", CC);
+        console.log("CVC:", CVC);
+        console.log("Expiration Date:", expir);
+        
+    };
 
     return (
         <div className="checkout-container">
@@ -44,7 +52,7 @@ export default function Checkout(props) {
             </div>
             <div className="checkout-form">
                 <h3>Billing Information</h3>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="name">Name:</label>
                         <input
@@ -52,6 +60,8 @@ export default function Checkout(props) {
                             id="name"
                             name="name"
                             placeholder="Enter your full name"
+                            value={ccName} 
+                            onChange={(e) => setName(e.target.value)} 
                         />
                     </div>
                     <div className="form-group">
@@ -61,6 +71,8 @@ export default function Checkout(props) {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)} 
                         />
                     </div>
                     <div className="form-group">
@@ -70,6 +82,8 @@ export default function Checkout(props) {
                             id="address"
                             name="address"
                             placeholder="Enter your address"
+                            value={addr} 
+                            onChange={(e) => setAddr(e.target.value)} 
                         />
                     </div>
                     <h3>Payment Information</h3>
@@ -80,6 +94,8 @@ export default function Checkout(props) {
                             id="credit-card"
                             name="creditCard"
                             placeholder="Enter your card number"
+                            value={CC} 
+                            onChange={(e) => setCC(e.target.value)} 
                         />
                     </div>
                     <div className="form-row">
@@ -90,6 +106,8 @@ export default function Checkout(props) {
                                 id="cvc"
                                 name="cvc"
                                 placeholder="CVC"
+                                value={CVC} 
+                                onChange={(e) => setCVC(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
@@ -99,6 +117,8 @@ export default function Checkout(props) {
                                 id="expiration"
                                 name="expiration"
                                 placeholder="MM/YY"
+                                value={expir} 
+                                onChange={(e) => setExpir(e.target.value)} 
                             />
                         </div>
                     </div>
