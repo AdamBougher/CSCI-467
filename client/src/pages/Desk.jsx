@@ -6,20 +6,22 @@ import '../App.css';
 export default function ReceivingDesk() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [orders, setParts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [quantities, setQuantities] = useState({}); // State object for storing quantities
 
   const fetchAPI = async () => {
-    const response = await axios.get('http://localhost:8080/api/site-db');
-    setParts(response.data);
+    try {
+      const response = await axios.get('http://localhost:8080/api/site-db');
+      setProducts(response.data);
+      setFilteredProducts(response.data); // Initialize filteredProducts with all products
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
-
-  useEffect(() => {
-    fetchAPI();
-  }, []);
 
   // Filter products based on search query
   useEffect(() => {
+    fetchAPI();
     const lowercasedQuery = searchQuery.toLowerCase();
     const results = products.filter(product =>
       product.description.toLowerCase().includes(lowercasedQuery) ||
@@ -30,8 +32,7 @@ export default function ReceivingDesk() {
 
   // Update product quantity
   const updateQuantity = async (productId, amt) => {
-
-    if(amt < 1 || amt == null) {
+    if (amt < 1 || isNaN(amt)) {
       alert('Please enter a valid quantity');
       return;
     }
@@ -77,7 +78,7 @@ export default function ReceivingDesk() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map(product => (
+          {filteredProducts.map(product => (
             <TableRow key={product.number}>
               <TableCell>{product.number}</TableCell>
               <TableCell>{product.description}</TableCell>
@@ -94,7 +95,7 @@ export default function ReceivingDesk() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => updateQuantity(parseInt(product.number), quantities[product.number])}
+                  onClick={() => updateQuantity(product.number, quantities[product.number])}
                 >
                   Update
                 </Button>
