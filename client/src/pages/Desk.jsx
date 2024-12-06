@@ -8,19 +8,16 @@ export default function ReceivingDesk() {
   const [searchQuery, setSearchQuery] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [orders, setParts] = useState([]);
 
-  //fetch products from the database!!!!!!
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/products');
-      setProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching product data:", error);
-    }
-  };
+
+  const fetchAPI = async () => {
+    const response = await axios.get('http://localhost:8080/api/orders');
+       setParts(response.data);
+  }
 
   useEffect(() => {
-    fetchProducts();
+    fetchAPI();
   }, []);
 
   //filter products based on search query
@@ -74,7 +71,7 @@ export default function ReceivingDesk() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredProducts.map(product => (
+          {orders.map(product => (
             <TableRow key={product.id}>
               <TableCell>{product.partNumber}</TableCell>
               <TableCell>{product.description}</TableCell>

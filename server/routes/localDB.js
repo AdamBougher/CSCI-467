@@ -183,6 +183,33 @@ router.put('/orders/:id', async (req, res) => {
   });
 });
 
+
+// Route to update weight and cost in weightRanges
+router.put('/weight/set/:id', async (req, res) => {
+  const { id } = req.params;
+  const { weight, cost } = req.body; // Extract weight and cost from request body
+
+  if (weight !== undefined) {
+    db.run('UPDATE weightRanges SET weight = ? WHERE id = ?', [weight, id], function(err) {
+      if (err) {
+        console.error('Error updating weight:', err);
+        return res.status(500).json({ error: 'Error updating weight' });
+      }
+    });
+  }
+
+  if (cost !== undefined) {
+    db.run('UPDATE weightRanges SET cost = ? WHERE id = ?', [cost, id], function(err) {
+      if (err) {
+        console.error('Error updating cost:', err);
+        return res.status(500).json({ error: 'Error updating cost' });
+      }
+    });
+  }
+
+  res.json({ id, weight, cost });
+});
+
 router.put('/orders/add', async (req, res) => {
   const { name, email, address, weight, total, shippingCost } = req.body;
   db.run(

@@ -42,6 +42,3 @@ CREATE TABLE IF NOT EXISTS "weightRanges" (
 -- INSERT INTO orders (name, email, address, weight, total, shippingCost) VALUES
 -- ('Adam Bougher', 'adam@email.com', '1234 Main St, Anytown, USA', 10, 100.00, 15.00),
 -- ('Jane Doe', 'jane@mail.com', '1234 Elm St, Anytown, USA', 25, 250.00, 25.00);
-
-INSERT INTO orders (name, email, address, weight, total, shippingCost)
-VALUES ('Adam Bougher', 'adamsauce99@gmail.com', '1234 Main St, Anytown, USA', 10, 100.00, 15.00);
