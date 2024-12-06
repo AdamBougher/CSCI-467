@@ -171,6 +171,7 @@ router.get('/orders/warehouseOrders', async (req, res) => {
   });
 });
 
+//route to get orders of status 1 from orders, these are the orders that have been fufilled
 router.post('/orders/place', async (req, res) => {
   const { id } = req.params;
   const { name, email, address, weight, total, shippingCost } = req.body;
@@ -223,19 +224,7 @@ router.put('/weight/set/:id', async (req, res) => {
   res.json({ id, weight, cost });
 });
 
-router.put('/orders/add', async (req, res) => {
-  const { name, email, address, weight, total, shippingCost } = req.body;
-  db.run(
-    `INSERT INTO orders (name, email, address, weight, total, shippingCost)VALUES (?, ?, ?, ?, ?, ?)`, 
-        [name, email, address, weight, total, shippingCost], function(err) {
-    if (err) {
-      console.error('Error updating order:', err);
-      return res.status(500).json({ error: 'Error updating order' });
-    }
-    res.json({ id, shipped: 1 });
-  });
-});
-
+//route to add an amount to the quantity of a part
 router.put('/inventory/add/:id', async (req, res) => {
   const { id } = req.params;
   const { amt } = req.body; // Extract amt from request body
@@ -255,6 +244,69 @@ router.put('/inventory/add/:id', async (req, res) => {
   }
 });
 
+//route to remove an amount from the quantity of a part
+router.put('/inventory/remove/:id', async (req, res) => {
+  const { id } = req.params;
+  const { amt } = req.body; // Extract amt from request body
+
+  console.log('id:', id, 'amt:', amt);
+
+  if (amt !== undefined) {
+    db.run('UPDATE quantity SET qty = qty - ? WHERE number = ?', [amt, id], function(err) {
+      if (err) {
+        console.error('Error updating quantity:', err);
+        return res.status(500).json({ error: 'Error updating quantity' });
+      }
+      res.json({ id, amt });
+    });
+  } else {
+    res.status(400).json({ error: 'Amount is required' });
+  }
+});
+
+//route to get shipping cost from weightRanges
+router.get('/shippingCost/:weight', async (req, res) => {
+  const { weight } = req.params;
+  db.get('SELECT cost FROM weightRanges WHERE weight < ? ORDER BY weight DESC LIMIT 1', [weight], (err, row) => {
+    if (err) {
+      console.error('Error fetching shipping cost:', err);
+      return res.status(500).json({ error: 'Error fetching shipping cost' });
+    }
+    if( row) {
+      res.json(row.cost);
+    }else{
+      res.json(0);
+    }
+  });
+});
+
+//route to add an order to the orders table
+router.put('/orders/add', async (req, res) => {
+  const { name, email, address, weight, total, shippingCost } = req.body;
+  db.run(
+    `INSERT INTO orders (name, email, address, weight, total, shippingCost)VALUES (?, ?, ?, ?, ?, ?)`, 
+        [name, email, address, weight, total, shippingCost], function(err) {
+    if (err) {
+      console.error('Error updating order:', err);
+      return res.status(500).json({ error: 'Error updating order' });
+    }
+    res.json({ id, shipped: 1 });
+  });
+});
+
+//route to add an item to orderLines t able
+router.put('/orderLines/add', async (req, res) => {
+  const { orderId, partNumber, quantity, price } = req.body;
+  db.run(
+    `INSERT INTO orderLines (orderId, itemId, quantity, price)VALUES (?, ?, ?, ?)`, 
+        [orderId, partNumber, quantity, price], function(err) {
+    if (err) {
+      console.error('Error updating order:', err);
+      return res.status(500).json({ error: 'Error updating order' });
+    }
+    res.json({ id, shipped: 1 });
+  });
+});
 
 
 module.exports = { router, initialize };
