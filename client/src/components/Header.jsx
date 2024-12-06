@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Header = (props) => {
-  const { cart } = props;
-  let cartAmt = 0;
+  const { cart, cartAmt } = props;
   const [parts, setParts] = useState([]);
 
   const fetchAPI = async () => {
@@ -16,14 +15,6 @@ const Header = (props) => {
   useEffect(() => {
       fetchAPI();
   }, []);
-
-  for (let [key, value] of cart) {
-    parts.forEach((part) => {
-      if(part.number == key) {
-        cartAmt += (value * part.price)
-      }
-    });
-  }
 
     return (
       <header className="header">
