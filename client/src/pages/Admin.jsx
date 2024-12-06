@@ -11,10 +11,25 @@ export default function Admin() {
     try {
       const response = await axios.get("http://localhost:8080/api/orders");
       const weightResponse = await axios.get("http://localhost:8080/api/weight");
-      setOrders(response.data);
+      const ordersWithItems = await Promise.all(response.data.map(async (order) => {
+        const orderItems = await getOrderItems(order.id);
+        return { ...order, orderItems };
+      }));
+      setOrders(ordersWithItems);
       setWeight(weightResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);
+    }
+  };
+
+  const getOrderItems = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/orderLines/${id}`);
+      console.log('Order items:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching order items:', error);
+      return []; // Return an empty array in case of error
     }
   };
 
@@ -37,15 +52,6 @@ export default function Admin() {
       console.log('Weight and cost updated:', response.data);
     } catch (error) {
       console.error('Error updating weight and cost:', error);
-    }
-  };
-
-  const getOrderItems = async (id) => {
-    try {
-      const response = await axios.get(`http://localhost:8080/api/orderLines/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching order items:', error);
     }
   };
 
@@ -88,7 +94,7 @@ export default function Admin() {
               date={order.date}
               total={order.total}
               Shipped={order.Shipped}
-              orderItems={order.orderItems || []} // Ensure orderItems is passed here
+              orderItems={order.orderItems || []} // Ensure orderItems is an array
             />
           ))}
         </div>
