@@ -14,6 +14,54 @@ export default function Checkout(props) {
         cvc: '',
         expiration: '',
     });
+    const [totalWeight, setTotalWeight] = useState(0); // State for total weight
+        const [shippingCost, setShippingCost] = useState(0);
+
+    const fetchAPI = async () => {
+        const response = await axios.get('http://localhost:8080/api/site-db');
+        setParts(response.data);
+    };
+
+    useEffect(() => {
+        const fetchShippingCost = async () => {
+            const cost = await shippingcost(totalWeight);
+            setShippingCost(cost);
+        };
+    
+        if (totalWeight > 0) {
+            fetchShippingCost();
+        }
+        fetchAPI();
+
+    }, [totalWeight]);
+
+    useEffect(() => {
+        const calculateTotalWeight = () => {
+            const weight = Array.from(cart.entries())
+                .filter(([key, value]) => value > 0) // Filter out items where value <= 0
+                .reduce((acc, [key, value]) => {
+                    const part = parts.find((part) => part.number === key);
+                    return part ? acc + part.weight * value : acc;
+                }, 0);
+            setTotalWeight(weight);
+        };
+
+        if (parts.length > 0) {
+            calculateTotalWeight();
+        }
+    }, [parts, cart]);
+
+    const shippingcost = async (weight) => {
+        try {
+            console.log('Fetching shipping cost... for weight:', weight);   
+            const response = await axios.get(`http://localhost:8080/api/shippingCost/${weight}`);
+            console.log('Shipping cost:', response.data);
+            return response.data; // Access the value directly
+        } catch (error) {
+            console.error('Error fetching shipping cost:', error);
+            return 0; // Return a default value in case of error
+        }
+    };
 
     const initialFormData = {
         name: '',
@@ -23,15 +71,6 @@ export default function Checkout(props) {
         cvc: '',
         expiration: '',
     };
-
-    const fetchAPI = async () => {
-        const response = await axios.get('http://localhost:8080/api/site-db');
-        setParts(response.data);
-    }
-
-    useEffect(() => {
-        fetchAPI();
-    }, []);
 
     async function creditCardProcess() {
         let transID = 'RYAN-' + (Math.random() * 10000).toString();
@@ -81,20 +120,23 @@ export default function Checkout(props) {
     };
 
     const submitOrder = async () => {
+        const shippingCost = await shippingcost(totalWeight); // Await the shipping cost
         const data = {
             name: formData.name,
             email: formData.email,
             address: formData.address,
-            weight: cartAmt,
+            weight: totalWeight,
             total: cartAmt,
-            shippingCost: 0,
+            shippingCost: shippingCost, // Use the fetched shipping cost
         };
 
         try {
             const response = await axios.post('http://localhost:8080/api/orders/place', data);
             console.log('Order submitted:', response.data);
+            return true;
         } catch (error) {
             console.error('Error submitting order:', error);
+            return false;
         }
     };
 
@@ -115,6 +157,8 @@ export default function Checkout(props) {
                             </h2>
                         ) : null;
                     })}
+                <h3>Total Weight: {totalWeight.toFixed(2)} lbs</h3>
+                <h3>Shipping Cost: ${shippingCost}</h3>
             </div>
             <div className="checkout-form">
                 <h3>Billing Information</h3>
