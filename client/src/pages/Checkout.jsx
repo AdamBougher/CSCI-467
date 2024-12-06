@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 
 export default function Checkout(props) {
-    const { cart } = props;
+    const { cart, cartAmt } = props;
     const [parts, setParts] = useState([]);
 
     const fetchAPI = async () => {
@@ -37,13 +37,14 @@ export default function Checkout(props) {
     };
 
     async function creditCardProcess() {
+        let transID = 'RYAN-' + (Math.random()*10000).toString()
         const data = {
             'vendor': 'VE001-99',
-            'trans': '907-987654321-296',
+            'trans': transID,
             'cc': CC,
             'name': ccName, 
             'exp': expir, 
-            'amount': '654.32',
+            'amount': cartAmt.toString(),
         };
         try {
             const response = await axios.post('http://blitz.cs.niu.edu/creditcard', data);
