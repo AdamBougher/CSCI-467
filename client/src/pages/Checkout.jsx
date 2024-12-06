@@ -110,12 +110,33 @@ export default function Checkout(props) {
             if (orderSuccess) {
                 setShowPopup(true); // Show the popup;
                 setFormData(initialFormData);
+
+                cart.forEach((value, key) => {
+                    removeInventory(key, value);
+                });
+
                 cart.clear()
             } else {
                 alert('Order submission failed. Please try again.');
             }
         } else {
             alert('Payment failed. Please try again.');
+        }
+    };
+
+    const addOrderline = async (orderId, partNumber, quantity, price) => {
+        try {
+          const response = await axios.put('http://localhost:8080/api/orderLines/add', {
+            orderId,
+            partNumber,
+            quantity,
+            price,
+          });
+          console.log('Order line added:', response.data);
+          return true;
+        } catch (error) {
+          console.error('Error adding order line:', error);
+          return false;
         }
     };
 
@@ -133,6 +154,15 @@ export default function Checkout(props) {
         try {
             const response = await axios.post('http://localhost:8080/api/orders/place', data);
             console.log('Order submitted:', response.data);
+
+            // Add order lines
+            for (const [key, value] of cart.entries()) {
+                const part = parts.find((part) => part.number === key);
+                if (part) {
+                    await addOrderline(response.data.id, key, value, part.price);
+                }
+            }
+
             return true;
         } catch (error) {
             console.error('Error submitting order:', error);
@@ -142,6 +172,18 @@ export default function Checkout(props) {
 
     const closePopup = () => {
         setShowPopup(false);
+    };
+
+
+    const removeInventory = async (id, amt) => {
+        try {
+            const response = await axios.put(`http://localhost:8080/api/inventory/remove/${id}`, { amt });
+            console.log('Inventory updated:', response.data);
+            return true;
+        } catch (error) {
+            console.error('Error updating inventory:', error);
+            return false;
+        }
     };
 
     return (

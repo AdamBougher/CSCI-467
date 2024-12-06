@@ -182,7 +182,7 @@ router.post('/orders/place', async (req, res) => {
       console.error('Error updating order:', err);
       return res.status(500).json({ error: 'Error updating order' });
     }
-    res.json({"Order placed with id": this.lastID});
+    res.json({id: this.lastID});
   });
 });
 
@@ -297,15 +297,18 @@ router.put('/orders/add', async (req, res) => {
 //route to add an item to orderLines t able
 router.put('/orderLines/add', async (req, res) => {
   const { orderId, partNumber, quantity, price } = req.body;
+
   db.run(
-    `INSERT INTO orderLines (orderId, itemId, quantity, price)VALUES (?, ?, ?, ?)`, 
-        [orderId, partNumber, quantity, price], function(err) {
-    if (err) {
-      console.error('Error updating order:', err);
-      return res.status(500).json({ error: 'Error updating order' });
+    'INSERT INTO orderLines (orderId, itemId, quantity, price) VALUES (?, ?, ?, ?)',
+    [orderId, partNumber, quantity, price],
+    function(err) {
+      if (err) {
+        console.error('Error adding order line:', err);
+        return res.status(500).json({ error: 'Error adding order line' });
+      }
+      res.json({ id: this.lastID, orderId, partNumber, quantity, price });
     }
-    res.json({ id, shipped: 1 });
-  });
+  );
 });
 
 
