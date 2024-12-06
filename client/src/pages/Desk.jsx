@@ -14,12 +14,9 @@ export default function ReceivingDesk() {
     setParts(response.data);
   };
 
+  //  er products based on search query
   useEffect(() => {
     fetchAPI();
-  }, []);
-
-  // Filter products based on search query
-  useEffect(() => {
     const lowercasedQuery = searchQuery.toLowerCase();
     const results = products.filter(product =>
       product.description.toLowerCase().includes(lowercasedQuery) ||
