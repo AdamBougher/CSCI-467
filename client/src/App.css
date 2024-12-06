@@ -336,3 +336,12 @@ nav ul li a {
   height: 80vh;
   overflow-y: auto; /* Enable vertical scrolling */
 }
+
+.orders-container {
+  max-width: 90%; /* Adjust width to take up more space */
+  margin: 0 auto; /* Center the container */
+  padding: 10px; /* Add some padding for aesthetics */
+  background-color: #f9f9f9; /* Optional: Add a light background for contrast */
+  border-radius: 8px; /* Optional: Rounded corners for modern look */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}

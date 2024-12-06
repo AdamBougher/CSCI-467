@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminTable from "../components/adminTable";
 import axios from 'axios';
+import "../App.css";
 
 export default function Admin() {
   const [orders, setOrders] = useState([]);
@@ -40,38 +41,47 @@ export default function Admin() {
   };
 
   return (
-    <div>
-      <h2>Admin Panel</h2>
-      <section id="Orders">
-        {orders.map((order) => (
-          <AdminTable
-            key={order.id}
-            id={order.id}
-            name={order.name}
-            email={order.email}
-            addr={order.address}
-            date={order.date}
-            total={order.total}
-            Shipped={order.Shipped}
-          />
-        ))}
+    <div className="admin-container">
+      <h2 className="admin-header">Admin Panel</h2>
+      <section id="Weight" className="weight-section">
+        <h3>Weight and Prices</h3>
+        <div className="weight-grid">
+          {weight.map((item, index) => (
+            <div key={item.id} className="weight-item">
+              <input
+                type="number"
+                value={item.weight}
+                className="weight-input"
+                onChange={(e) => handleWeightChange(index, 'weight', e.target.value)}
+                placeholder="Weight"
+              />
+              <input
+                type="number"
+                value={item.cost}
+                className="cost-input"
+                onChange={(e) => handleWeightChange(index, 'cost', e.target.value)}
+                placeholder="Cost"
+              />
+            </div>
+          ))}
+        </div>
       </section>
-      <section id="Weight">
-        <h1>Weight and prices</h1>
-        {weight.map((item, index) => (
-          <div key={item.id}>
-            <input
-              type="number"
-              value={item.weight}
-              onChange={(e) => handleWeightChange(index, 'weight', e.target.value)}
+      <section id="Orders" className="orders-section">
+        <h3>Orders</h3>
+        <div className="orders-container">
+          {orders.map((order) => (
+            <AdminTable
+              key={order.id}
+              id={order.id}
+              name={order.name}
+              email={order.email}
+              addr={order.address}
+              date={order.date}
+              total={order.total}
+              Shipped={order.Shipped}
             />
-            <input
-              type="number"
-              value={item.cost}
-              onChange={(e) => handleWeightChange(index, 'cost', e.target.value)}
-            />
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
     </div>
   );
