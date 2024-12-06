@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
-import SiteNav from '../components/siteNav';
-import Header from "../components/Header";
 import axios from 'axios';
 
 export default function Checkout(props) {
-    const { cart } = props;
+    const { cart, cartAmt } = props;
     const [parts, setParts] = useState([]);
     const [showPopup, setShowPopup] = useState(false); // Popup state
     const [formData, setFormData] = useState({ // Form data state
@@ -17,6 +15,15 @@ export default function Checkout(props) {
         expiration: '',
     });
 
+    const initialFormData = {
+        name: '',
+        email: '',
+        address: '',
+        creditCard: '',
+        cvc: '',
+        expiration: '',
+    };
+
     const fetchAPI = async () => {
         const response = await axios.get('http://localhost:8080/api/site-db');
         setParts(response.data);
@@ -26,6 +33,26 @@ export default function Checkout(props) {
         fetchAPI();
     }, []);
 
+    async function creditCardProcess() {
+        let transID = 'RYAN-' + (Math.random() * 10000).toString();
+        const data = {
+            'vendor': 'VE001-99',
+            'trans': transID,
+            'cc': formData.creditCard,
+            'name': formData.name,
+            'exp': formData.expiration,
+            'amount': cartAmt.toString(),
+        };
+        try {
+            const response = await axios.post('http://blitz.cs.niu.edu/creditcard', data);
+            console.log('Payment processed:', response.data);
+            return true;
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            return false;
+        }
+    }
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -34,25 +61,46 @@ export default function Checkout(props) {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Additional validation or processing logic can be added here
-        setShowPopup(true); // Show the popup
+        console.log("Form Data:", formData);
+        const paymentSuccess = await creditCardProcess();
+
+        if (paymentSuccess === true) {
+            const orderSuccess = await submitOrder();
+            if (orderSuccess) {
+                setShowPopup(true); // Show the popup;
+                setFormData(initialFormData);
+                cart.clear()
+            } else {
+                alert('Order submission failed. Please try again.');
+            }
+        } else {
+            alert('Payment failed. Please try again.');
+        }
+    };
+
+    const submitOrder = async () => {
+        const data = {
+            name: formData.name,
+            email: formData.email,
+            address: formData.address,
+            weight: cartAmt,
+            total: cartAmt,
+            shippingCost: 0,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/orders/place', data);
+            console.log('Order submitted:', response.data);
+        } catch (error) {
+            console.error('Error submitting order:', error);
+        }
     };
 
     const closePopup = () => {
         setShowPopup(false);
     };
-
-    //To be used later (When/if we want to list out the order on the checkout page)
-    // for (let [key, value] of cart) {
-    //     parts.forEach((part) => {
-    //     if(part.number == key) {
-    //         <h2>{value}x {part.name}: ${part.price * value}</h2>
-    //     }
-    //     });
-    // }
-    // To be used later
 
     return (
         <div className="checkout-container">
@@ -78,8 +126,8 @@ export default function Checkout(props) {
                             id="name"
                             name="name"
                             value={formData.name}
-                            onChange={handleChange}
                             placeholder="Enter your full name"
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-group">
@@ -89,8 +137,8 @@ export default function Checkout(props) {
                             id="email"
                             name="email"
                             value={formData.email}
-                            onChange={handleChange}
                             placeholder="Enter your email"
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-group">
@@ -100,8 +148,8 @@ export default function Checkout(props) {
                             id="address"
                             name="address"
                             value={formData.address}
-                            onChange={handleChange}
                             placeholder="Enter your address"
+                            onChange={handleChange}
                         />
                     </div>
                     <h3>Payment Information</h3>
@@ -112,8 +160,8 @@ export default function Checkout(props) {
                             id="credit-card"
                             name="creditCard"
                             value={formData.creditCard}
-                            onChange={handleChange}
                             placeholder="Enter your card number"
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-row">
@@ -124,8 +172,8 @@ export default function Checkout(props) {
                                 id="cvc"
                                 name="cvc"
                                 value={formData.cvc}
-                                onChange={handleChange}
                                 placeholder="CVC"
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="form-group">
@@ -135,8 +183,8 @@ export default function Checkout(props) {
                                 id="expiration"
                                 name="expiration"
                                 value={formData.expiration}
-                                onChange={handleChange}
                                 placeholder="MM/YY"
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -146,7 +194,7 @@ export default function Checkout(props) {
                 </form>
             </div>
 
-            {showPopup && ( // Popup componentsssss
+            {showPopup && ( // Popup component
                 <div className="popup">
                     <div className="popup-content">
                         <h2>Order Confirmed!</h2>

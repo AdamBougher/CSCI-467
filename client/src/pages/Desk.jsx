@@ -27,7 +27,6 @@ export default function ReceivingDesk() {
       product.description.toLowerCase().includes(lowercasedQuery) ||
       product.partNumber.toLowerCase().includes(lowercasedQuery)
     );
-    setFilteredProducts(results);
   }, [searchQuery, products]);
 
   // Update product quantity
