@@ -1,11 +1,6 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
+import React from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableRow, Divider } from '@mui/material';
+
 
 const AdminTable = (props) => {
 
@@ -41,6 +36,13 @@ const AdminTable = (props) => {
                 <TableCell>Addr:</TableCell>
                 <TableCell align="left">{props.addr}</TableCell>
             </TableRow>
+
+            {props.orderItems.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>Item:</TableCell>
+                <TableCell align="left">{item}</TableCell>
+              </TableRow>
+            ))}
 
             <TableBody>
             </TableBody>

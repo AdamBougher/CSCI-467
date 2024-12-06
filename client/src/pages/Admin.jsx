@@ -39,6 +39,16 @@ export default function Admin() {
     }
   };
 
+  //method t oget orderliens with the order id
+  const getOrderItems = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/orderLines/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching order items:', error);
+    }
+  };
+
   return (
     <div>
       <h2>Admin Panel</h2>
@@ -53,6 +63,7 @@ export default function Admin() {
             date={order.date}
             total={order.total}
             Shipped={order.Shipped}
+            orderItems={getOrderItems(order.id)}
           />
         ))}
       </section>
