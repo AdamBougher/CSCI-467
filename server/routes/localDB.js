@@ -223,4 +223,23 @@ router.put('/orders/add', async (req, res) => {
   });
 });
 
+router.put('/inventory/add/:id', async (req, res) => {
+  const { id } = req.params;
+  const { amt } = req.body; // Extract amt from request body
+
+  console.log('id:', id, 'amt:', amt);
+
+  if (amt !== undefined) {
+    db.run('UPDATE quantity SET qty = qty + ? WHERE number = ?', [amt, id], function(err) {
+      if (err) {
+        console.error('Error updating quantity:', err);
+        return res.status(500).json({ error: 'Error updating quantity' });
+      }
+      res.json({ id, amt });
+    });
+  } else {
+    res.status(400).json({ error: 'Amount is required' });
+  }
+});
+
 module.exports = { router, initialize };
