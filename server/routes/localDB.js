@@ -171,6 +171,20 @@ router.get('/orders/warehouseOrders', async (req, res) => {
   });
 });
 
+router.post('/orders/place', async (req, res) => {
+  const { id } = req.params;
+  const { name, email, address, weight, total, shippingCost } = req.body;
+
+  db.run('INSERT INTO orders (name, email, address, weight, total, shippingCost)VALUES (?, ?, ?, ?, ?, ?)',
+     [name, email, address, weight, total, shippingCost], function(err) {
+    if (err) {
+      console.error('Error updating order:', err);
+      return res.status(500).json({ error: 'Error updating order' });
+    }
+    res.json({"Order placed with id": this.lastID});
+  });
+});
+
 //route to set the shipped status of an order to 1
 router.put('/orders/:id', async (req, res) => {
   const { id } = req.params;
@@ -182,7 +196,6 @@ router.put('/orders/:id', async (req, res) => {
     res.json({ id, shipped: 1 });
   });
 });
-
 
 // Route to update weight and cost in weightRanges
 router.put('/weight/set/:id', async (req, res) => {
@@ -241,5 +254,7 @@ router.put('/inventory/add/:id', async (req, res) => {
     res.status(400).json({ error: 'Amount is required' });
   }
 });
+
+
 
 module.exports = { router, initialize };
