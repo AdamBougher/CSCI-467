@@ -1,10 +1,9 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableRow, Divider } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Divider, Paper } from '@mui/material';
+
 
 
 const AdminTable = (props) => {
-
-
 
   return (
     <div>
