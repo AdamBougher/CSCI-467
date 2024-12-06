@@ -26,21 +26,14 @@ export default function Checkout(props) {
         fetchAPI();
     }, []);
 
-    const [ccName, setName] = useState("");
-    const [email, setEmail] = useState("@gmail.com");
-    const [addr, setAddr] = useState("1234 Street");
-    const [CC, setCC] = useState("7");
-    const [CVC, setCVC] = useState("111");
-    const [expir, setExpir] = useState("7/30");
-
     async function creditCardProcess() {
-        let transID = 'RYAN-' + (Math.random()*10000).toString()
+        let transID = 'RYAN-' + (Math.random() * 10000).toString();
         const data = {
             'vendor': 'VE001-99',
             'trans': transID,
-            'cc': CC,
-            'name': ccName, 
-            'exp': expir, 
+            'cc': formData.creditCard,
+            'name': formData.name,
+            'exp': formData.expiration,
             'amount': cartAmt.toString(),
         };
         try {
@@ -51,42 +44,24 @@ export default function Checkout(props) {
         }
     }
 
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setFormData({
-    //         ...formData,
-    //         [name]: value,
-    //     });
-    // };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        e.preventDefault();
-
-        console.log("Name:", ccName);
-        console.log("Email:", email);
-        console.log("Address:", addr);
-        console.log("CC #:", CC);
-        console.log("CVC:", CVC);
-        console.log("Expiration Date:", expir);
+        console.log("Form Data:", formData);
         await creditCardProcess();
-
         setShowPopup(true); // Show the popup
     };
 
     const closePopup = () => {
         setShowPopup(false);
     };
-
-    //To be used later (When/if we want to list out the order on the checkout page)
-    // for (let [key, value] of cart) {
-    //     parts.forEach((part) => {
-    //     if(part.number == key) {
-    //         <h2>{value}x {part.name}: ${part.price * value}</h2>
-    //     }
-    //     });
-    // }
-    // To be used later
 
     return (
         <div className="checkout-container">
@@ -113,7 +88,7 @@ export default function Checkout(props) {
                             name="name"
                             value={formData.name}
                             placeholder="Enter your full name"
-                            onChange={(e) => setName(e.target.value)} 
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-group">
@@ -124,7 +99,7 @@ export default function Checkout(props) {
                             name="email"
                             value={formData.email}
                             placeholder="Enter your email"
-                            onChange={(e) => setEmail(e.target.value)} 
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-group">
@@ -135,7 +110,7 @@ export default function Checkout(props) {
                             name="address"
                             value={formData.address}
                             placeholder="Enter your address"
-                            onChange={(e) => setAddr(e.target.value)} 
+                            onChange={handleChange}
                         />
                     </div>
                     <h3>Payment Information</h3>
@@ -147,7 +122,7 @@ export default function Checkout(props) {
                             name="creditCard"
                             value={formData.creditCard}
                             placeholder="Enter your card number"
-                            onChange={(e) => setCC(e.target.value)} 
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-row">
@@ -158,8 +133,8 @@ export default function Checkout(props) {
                                 id="cvc"
                                 name="cvc"
                                 value={formData.cvc}
-                                placeholder="CVC" 
-                                onChange={(e) => setCVC(e.target.value)}
+                                placeholder="CVC"
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="form-group">
@@ -170,7 +145,7 @@ export default function Checkout(props) {
                                 name="expiration"
                                 value={formData.expiration}
                                 placeholder="MM/YY"
-                                onChange={(e) => setExpir(e.target.value)} 
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -180,7 +155,7 @@ export default function Checkout(props) {
                 </form>
             </div>
 
-            {showPopup && ( // Popup componentsssss
+            {showPopup && ( // Popup component
                 <div className="popup">
                     <div className="popup-content">
                         <h2>Order Confirmed!</h2>
