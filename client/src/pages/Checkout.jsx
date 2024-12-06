@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
-import SiteNav from '../components/siteNav';
-import Header from "../components/Header";
 import axios from 'axios';
 
 export default function Checkout(props) {
@@ -16,6 +14,15 @@ export default function Checkout(props) {
         cvc: '',
         expiration: '',
     });
+
+    const initialFormData = {
+        name: '',
+        email: '',
+        address: '',
+        creditCard: '',
+        cvc: '',
+        expiration: '',
+    };
 
     const fetchAPI = async () => {
         const response = await axios.get('http://localhost:8080/api/site-db');
@@ -39,8 +46,10 @@ export default function Checkout(props) {
         try {
             const response = await axios.post('http://blitz.cs.niu.edu/creditcard', data);
             console.log('Payment processed:', response.data);
+            return true;
         } catch (error) {
             console.error('Error processing payment:', error);
+            return false;
         }
     }
 
@@ -55,8 +64,14 @@ export default function Checkout(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Data:", formData);
-        await creditCardProcess();
-        setShowPopup(true); // Show the popup
+        const paymentSuccess = await creditCardProcess();
+        if (paymentSuccess === true) {
+            setShowPopup(true); // Show the popup
+            cart.clear();
+            setFormData(initialFormData);
+        }else{
+            alert('Payment failed. Please try again.');
+        }
     };
 
     const closePopup = () => {
