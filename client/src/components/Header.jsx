@@ -41,7 +41,7 @@ const Header = (props) => {
               alt="Cart" 
               className="shopping-cart" 
             />
-            <h2>${cartAmt.toFixed(2)}</h2>
+            <h2 className="shopping-cart-price">${cartAmt.toFixed(2)}</h2>
           </div>
         </Link>
       </header>

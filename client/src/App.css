@@ -13,8 +13,6 @@
   }
 }
 
-
-
 .App-link {
   color: #61dafb;
 }
@@ -52,10 +50,73 @@ img{
 
 .item-card {
   display: flex;
+  background-color: #ffffff;
   align-items: center;
   margin: 0 auto;
 
   /* outline: 2px solid #f0f0f0; */
+}
+
+.item-card img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.item-name {
+  font-family: 'ProximaNova-Bold', sans-serif;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.item-price {
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2em;
+  color: #ffd351;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.item-weight {
+  font-family: 'AmazonEmber-Thin', monospace;
+  font-size: 1.1em;
+  color: #00000;
+  margin-bottom: 10px;
+}
+
+.item-quantity {
+  font-family: 'AmazonEmber-Duospace', serif;
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 5px 10px;
+  font-family: 'ProximaNova-Bold', sans-serif;
+  background-color: #ffd351;
+  text-transform: uppercase;
+  color: white;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px 5px;
+  transition: background-color 0.3s ease;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Space between buttons */
+  width: 100%;
+}
+
+
+button:hover {
+  background-color: #ffba31;
 }
 
 nav{
@@ -108,7 +169,6 @@ nav ul li a {
 }
 
 
-
 .checkout-form h3 {
   margin-bottom: 10px;
   color: #333;
@@ -159,23 +219,63 @@ nav ul li a {
   background-color: #45a049;
 }
 
+.pagination-text span {
+  font-family: 'ProximaNova-Bold', sans-serif;
+  font-size: 1.2em; 
+  color: black;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: auto;
+}
+
 .shopping-cart {
-  height: 30px; 
+  height: 30px;
   width: auto;
   max-width: 30px;
-  max-height: 30px; 
+  max-height: 30px;
+}
+
+.shopping-cart-container {
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
 }
 
 .shopping-cart-container img {
-  display: flex;
-  justify-content: flex-end; 
-  align-items: center;
-  width: 100%;
+  width: auto; 
+  height: auto;
+}
+
+.shopping-cart-price {
+  font-family: 'ProximaNova-Bold', sans-serif;
+  font-size: 1.2em;
+  color: #fff; 
+  margin: 0;
+  text-align: right;
+}
+
+.shopping-cart-price:hover {
+  color: #ffd351; 
 }
 
 @font-face {
   font-family: 'ProximaNova-Bold';
   src: url('./fonts/proximanova_bold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'AmazonEmber-Duospace';
+  src: url('./fonts/amazonember_duospace.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'AmazonEmber-Thin';
+  src: url('./fonts/amazonember_thin.ttf') format('truetype');
 }
 
 .site-nav {
@@ -208,7 +308,8 @@ nav ul li a {
   align-items: center;
   justify-content: space-between; 
   background-color: #0c1656; 
-  padding: 10px 20px;
+  padding: 5px 10px;
+  height: auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-bottom: 4px solid #ffd351;
 }
@@ -218,6 +319,8 @@ nav ul li a {
   width: auto;
   max-height: 50px;
 }
+
+
 /* FORM CSS */
 
 /* HOME CSS */
