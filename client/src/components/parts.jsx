@@ -67,13 +67,15 @@ const Parts = (props) => {
             </div>
 
             {/*pagination controls */}
-            <div className="pagination" style={{ textAlign: "center", padding: "10px", marginTop: "auto" }}>
+            <div className="pagination">
                 <button onClick={prevPage} disabled={currentPage === 1} style={{ marginRight: "10px" }}>
                     Previous
                 </button>
-                <span>
-                    Page {currentPage} of {totalPages}
-                </span>
+                <div className="pagination-text">
+                    <span>
+                        Page {currentPage} of {totalPages}
+                    </span>
+                </div>
                 <button onClick={nextPage} disabled={currentPage === totalPages} style={{ marginLeft: "10px" }}>
                     Next
                 </button>
