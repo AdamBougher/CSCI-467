@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
-const mysql = require('mysql2/promise');
 
 const fs = require('fs');
 const path = require('path');
@@ -10,21 +9,24 @@ const path = require('path');
 const dbPath = path.join(__dirname, '..', 'db', 'partsdb.sqlite');
 const db = new sqlite3.Database(dbPath);
 
-// Remote database connection pool
-const remotePool = mysql.createPool({
-  host: 'blitz.cs.niu.edu',
-  user: 'student',
-  password: 'student',
-  database: 'csci467',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+// Remote database (now using SQLite instead of MySQL)
+const remoteDbPath = path.join(__dirname, '..', 'db', 'remotedb.sqlite');
+const remoteDb = new sqlite3.Database(remoteDbPath);
 
 // Function to check and make sure that the local database has all the parts from the remote database
 async function initialize() {
   try {
-    // Read SQL file
+    // Initialize remote database from SQL file
+    const remoteSQL = fs.readFileSync(path.join(__dirname, '..', 'db', 'remotedb.sql'), 'utf8');
+    remoteDb.exec(remoteSQL, (err) => {
+      if (err) {
+        console.error('Error executing remote SQL script:', err);
+      } else {
+        console.log('Remote database initialized');
+      }
+    });
+
+    // Read local SQL file
     const setupSQL = fs.readFileSync(path.join(__dirname, '..', 'db', 'localdb.sql'), 'utf8');
 
     db.serialize(() => {
@@ -38,7 +40,7 @@ async function initialize() {
     });
 
     // Check if the quantity table is empty
-    db.get('SELECT COUNT(*) AS count FROM quantity', async (err, row) => {
+    db.get('SELECT COUNT(*) AS count FROM quantity', (err, row) => {
       if (err) {
         console.error('Error checking quantity table:', err);
         return;
@@ -46,18 +48,21 @@ async function initialize() {
 
       if (row.count === 0) {
         // Fetch data from remote database and insert into local database
-        const [remoteParts] = await remotePool.query('SELECT * FROM parts');
-        for (const part of remoteParts) {
-          await new Promise((resolve, reject) => {
+        remoteDb.all('SELECT * FROM parts', (err, remoteParts) => {
+          if (err) {
+            console.error('Error fetching remote parts:', err);
+            return;
+          }
+          
+          for (const part of remoteParts) {
             db.run('INSERT OR IGNORE INTO quantity (qty, number) VALUES (?, ?)', [5, part.number], function(err) {
               if (err) {
-                return reject(err);
+                console.error('Error inserting quantity:', err);
               }
-              resolve();
             });
-          });
-        }
-        console.log('Inserted rows into quantity table');
+          }
+          console.log('Inserted rows into quantity table');
+        });
       } else {
         console.log('Quantity table already contains data, skipping insertion');
       }
@@ -68,25 +73,25 @@ async function initialize() {
 }
 
 //route to acsess the remote database
-router.get('/remote-db', async (req, res) => {
-  try {
-    const [rows] = await remotePool.query('SELECT * FROM parts');
+router.get('/remote-db', (req, res) => {
+  remoteDb.all('SELECT * FROM parts', (err, rows) => {
+    if (err) {
+      console.error('Error fetching remote data:', err);
+      return res.status(500).json({ error: 'Error fetching remote data' });
+    }
     res.json(rows);
-  } catch (err) {
-    console.error('Error fetching remote data:', err);
-    res.status(500).json({ error: 'Error fetching remote data' });
-  }
+  });
 });
 
 //route to get customer infromation from the remote database
-router.get('/customers', async (req, res) => {
-  try {
-    const [rows] = await remotePool.query('SELECT * FROM customers');
+router.get('/customers', (req, res) => {
+  remoteDb.all('SELECT * FROM customers', (err, rows) => {
+    if (err) {
+      console.error('Error fetching remote data:', err);
+      return res.status(500).json({ error: 'Error fetching remote data' });
+    }
     res.json(rows);
-  } catch (err) {
-    console.error('Error fetching remote data:', err);
-    res.status(500).json({ error: 'Error fetching remote data' });
-  }
+  });
 });
 
 // Route to get all quantities and their associated part numbers
@@ -101,9 +106,12 @@ router.get('/quantity', async (req, res) => {
 });
 
 // Route to join data from both databases
-router.get('/site-db', async (req, res) => {
-  try {
-    const [remoteParts] = await remotePool.query('SELECT * FROM parts');
+router.get('/site-db', (req, res) => {
+  remoteDb.all('SELECT * FROM parts', (err, remoteParts) => {
+    if (err) {
+      console.error('Error fetching remote parts:', err);
+      return res.status(500).json({ error: 'Error fetching remote parts' });
+    }
     
     db.all('SELECT * FROM quantity', (err, quantity) => {
       if (err) {
@@ -120,10 +128,7 @@ router.get('/site-db', async (req, res) => {
       });
       res.json(joinedData);
     });
-  } catch (err) {
-    console.error('Error fetching joined data:', err);
-    res.status(500).json({ error: 'Error fetching joined data' });
-  }
+  });
 });
 
 // Route to get the weight ranges from weightRanges
@@ -324,15 +329,15 @@ router.get('/orderLines/:id', async (req, res) => {
 });
 
 //route to get itme info by id from remote
-router.get('/item/:id', async (req, res) => {
+router.get('/item/:id', (req, res) => {
   const { id } = req.params;
-  try {
-    const [rows] = await remotePool.query('SELECT * FROM parts WHERE number = ?', [id]);
+  remoteDb.all('SELECT * FROM parts WHERE number = ?', [id], (err, rows) => {
+    if (err) {
+      console.error('Error fetching item:', err);
+      return res.status(500).json({ error: 'Error fetching item' });
+    }
     res.json(rows);
-  } catch (err) {
-    console.error('Error fetching item:', err);
-    res.status(500).json({ error: 'Error fetching item' });
-  }
+  });
 });
 
 

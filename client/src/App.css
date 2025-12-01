@@ -333,8 +333,9 @@ nav ul li a {
 .parts-container{
   gap: 20px;
   padding: 20px;
-  height: 80vh;
+  height: calc(100vh - 180px); /* Adjust for header and nav */
   overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .orders-container {
